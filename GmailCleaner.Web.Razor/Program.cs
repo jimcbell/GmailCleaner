@@ -3,13 +3,12 @@ using GmailCleaner.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.HttpLogging;
-using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using GmailCleaner.Adapters;
 using GmailCleaner.Repositories;
+using GmailCleaner.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +32,10 @@ builder.Services.AddScoped<IGoogleRequestFactory, GoogleRequestFactory>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IEmailAdapter, EmailsAdapter>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+
+string connectionString = builder.Configuration.GetConnectionString("GmailCleaner") ?? string.Empty;
+builder.Services.AddGmailCleanerContext(connectionString);
+
 
 // Add authentication
 builder.Services.AddAuthentication("cookie")

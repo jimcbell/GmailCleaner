@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GmailCleaner.EFCore.Models;
+using GmailCleaner.Common.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GmailCleaner.Common.DataContext.SqlServer;
+namespace GmailCleaner.Common;
 
 public partial class GmailCleanerContext : DbContext
 {
@@ -16,7 +16,9 @@ public partial class GmailCleanerContext : DbContext
     {
     }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<GCUser> Gcusers { get; set; }
+
+    public virtual DbSet<GCUserToken> GcuserTokens { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -24,11 +26,18 @@ public partial class GmailCleanerContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<GCUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07AAD4CFE9");
+            entity.Property(e => e.UserId).ValueGeneratedNever();
+        });
 
-            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+        modelBuilder.Entity<GCUserToken>(entity =>
+        {
+            entity.Property(e => e.UserTokenId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.User).WithMany(p => p.GCUserTokens)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_GCUserToken_GCUser");
         });
 
         OnModelCreatingPartial(modelBuilder);

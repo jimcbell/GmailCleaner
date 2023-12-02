@@ -8,4 +8,8 @@
 	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GmailCleaner.Common.DataContext.SqlServer\GmailCleaner.Common.DataContext.SqlServer.csproj" />
+  </ItemGroup>
+
 </Project>
