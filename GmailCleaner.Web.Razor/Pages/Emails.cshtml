@@ -19,19 +19,40 @@
         }
     </div>
 }
-<div class="card">
-    <table class="table">
-        <tr>
-            <th>Gmail Messages</th>
-        </tr>
-        <tbody>
-            @foreach(Email email in Model.Emails)
-            {
-                <tr>
-                    <td>@email.Snippet</td>
-                </tr>
-            }
+<form method="post">
+    <div class="form-group">
+        <label for="filter">Email Filters</label>
+        <input type="text" class="form-control" id="inpuFilter" aria-describedby="emailHelp" placeholder="Enter email filter">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+</form>
+@if(Model.Emails.Count > 0)
+{
+    <div class="card">
+        <table class="table">
+            <tr>
+                <th>Gmail Messages</th>
+            </tr>
+            <tbody>
+                @foreach (Email email in Model.Emails)
+                {
+                    <tr>
+                        <td>@email.Snippet</td>
+                    </tr>
+                }
 
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+        <div class="container">
+            <ul class="list-group">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+        </div>
+    </div>
+}
+
+

@@ -6,7 +6,7 @@ namespace GmailCleaner.Repositories
 {
     public interface IUserRepository
     {
-        public Task<int> AddUserAsync(GCUser user);
+        public Task<GCUser> UpsertUserAsync(GCUser user);
         public Task<GCUser> GetUserAsync(int userId);
         public Task<GCUser> UpsertTokenAsync(GCUser user, GCUserToken token);
 
@@ -25,7 +25,7 @@ namespace GmailCleaner.Repositories
         /// <param name="user"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<int> AddUserAsync(GCUser user)
+        public async Task<GCUser> UpsertUserAsync(GCUser user)
         {
             if (user.GCUserTokens.Count < 1)
             {
@@ -33,9 +33,20 @@ namespace GmailCleaner.Repositories
             }
             using (_context)
             {
-                _context.Gcusers.Add(user);
+                GCUser? existingUser = await _context.GCUsers.Where(u => u.GmailId == user.GmailId).FirstOrDefaultAsync();
+                if (existingUser != null)
+                {
+                    existingUser.Name = user.Name;
+                    existingUser.Email = user.Email;
+                    await UpsertTokenAsync(existingUser, user.GCUserTokens.First());
+                }
+                else
+                {
+                    existingUser = user;
+                    _context.GCUsers.Add(existingUser);
+                }
                 await _context.SaveChangesAsync();
-                return user.UserId;
+                return existingUser;
             }
         }
         /// <summary>
@@ -48,7 +59,7 @@ namespace GmailCleaner.Repositories
         {
             using (_context)
             {
-                GCUser? user = await _context.Gcusers.Where(u => u.UserId == userId).Include(x => x.GCUserTokens).FirstOrDefaultAsync();
+                GCUser? user = await _context.GCUsers.Where(u => u.UserId == userId).Include(x => x.GCUserTokens).FirstOrDefaultAsync();
                 if (user == null)
                 {
                     throw new Exception("User not found");
@@ -69,7 +80,7 @@ namespace GmailCleaner.Repositories
         {
             using (_context)
             {
-                GCUserToken? existingToken = await _context.GcuserTokens.Where(t => t.UserTokenId == token.UserTokenId).FirstOrDefaultAsync();
+                GCUserToken? existingToken = await _context.GCUserTokens.Where(t => t.UserId == user.UserId).FirstOrDefaultAsync();
                 if (existingToken == null)
                 {
                     user.GCUserTokens.Add(token);

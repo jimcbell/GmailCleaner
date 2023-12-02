@@ -32,6 +32,8 @@ builder.Services.AddScoped<IGoogleRequestFactory, GoogleRequestFactory>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IEmailAdapter, EmailsAdapter>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<ILoginAdapter, LoginAdapter>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 string connectionString = builder.Configuration.GetConnectionString("GmailCleaner") ?? string.Empty;
 builder.Services.AddGmailCleanerContext(connectionString);
@@ -69,7 +71,10 @@ builder.Services.AddAuthentication("cookie")
             {
                 using var result = await ctx.Backchannel.SendAsync(request);
                 var user = await result.Content.ReadFromJsonAsync<JsonElement>();
+                var text = await result.Content.ReadAsStringAsync();
                 ctx.RunClaimActions(user);
+                ctx.HttpContext.Response.Headers.Append("Token-Exp", ctx.ExpiresIn.ToString());
+                ctx.HttpContext.Request.Headers.Append("Token-Exp", ctx.ExpiresIn.ToString());
             }
             catch { }
         };
@@ -105,7 +110,7 @@ app.MapGet("/claims",
 app.MapGet("/login", () =>
 {
     return Results.Challenge(
-        new AuthenticationProperties() { RedirectUri = "/emails" },
+        new AuthenticationProperties() { RedirectUri = "/loginsuccess" },
         authenticationSchemes: new List<string>() { "google" });
 });
 

@@ -16,7 +16,8 @@ public class EmailsModel : PageModel
 
     public List<Email> Emails { get; set; } = new List<Email>();
     public ErrorModel EmailErrors { get; set; } = new();
-    public string AccessToken { get; set; } = string.Empty;
+    private string accessToken { get; set; } = string.Empty;
+    private string userId { get; set; } = string.Empty;
 
 
 
@@ -26,10 +27,26 @@ public class EmailsModel : PageModel
         _contextService = contextService;
 
     }
-    public async Task<PageResult> OnGet(string filter = "")
+    public PageResult OnGet(string userId = "")
     {
-        string accessToken = _contextService.GetToken(Request);
-        AccessToken = accessToken;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new Exception("User Id is not valid");
+        }
+        else
+        {
+            this.userId = userId;
+        }
+        //accessToken = _contextService.GetToken(Request);
+        //Emails = await _emailAdapter.GetEmails(accessToken, filter);
+        //Response.Cookies.Append(key: "access_token", accessToken);
+        return Page();
+    }
+    public async Task<PageResult> OnPost(string filter = "")
+    {
+        //string accessToken = _contextService.GetToken(Request);
+        //AccessToken = accessToken;
         Emails = await _emailAdapter.GetEmails(accessToken, filter);
         //Response.Cookies.Append(key: "access_token", accessToken);
         return Page();
