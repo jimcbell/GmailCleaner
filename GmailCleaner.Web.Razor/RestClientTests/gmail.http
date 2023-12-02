@@ -1,6 +1,6 @@
 GET https://gmail.googleapis.com/gmail/v1/users/me/messages
-Authorization: Bearer ya29.a0AfB_byC0aAk6qFfS2jqeGjzUrGxt3f4VWC75bDi_ASwgy0S2HxF34O5_8rzjELkBvK52qpg8x_3Td5x3874pxCkmbiQztJ7S7cYcdEtDAHbSwnRtLwf3-RJuUqvjLGJ0ZnOMJp7GlAckRIUAKPeUD0y40JXKpsV0QS-JRsYaCgYKAe8SARESFQHGX2MiiGHL1MpTmZpzx1lRycC2IA0174
+Authorization: Bearer 
 
 ###
 GET https://gmail.googleapis.com/gmail/v1/users/me/messages/18c230e5884a3d7c
-Authorization: Bearer ya29.a0AfB_byC0aAk6qFfS2jqeGjzUrGxt3f4VWC75bDi_ASwgy0S2HxF34O5_8rzjELkBvK52qpg8x_3Td5x3874pxCkmbiQztJ7S7cYcdEtDAHbSwnRtLwf3-RJuUqvjLGJ0ZnOMJp7GlAckRIUAKPeUD0y40JXKpsV0QS-JRsYaCgYKAe8SARESFQHGX2MiiGHL1MpTmZpzx1lRycC2IA0174
+Authorization: Bearer 
