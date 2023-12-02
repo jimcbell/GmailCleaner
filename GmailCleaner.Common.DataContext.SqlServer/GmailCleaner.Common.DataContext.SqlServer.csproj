@@ -10,12 +10,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\GCleaner.Common.EntityModels.SqlServer\GmailCleaner.Common.EntityModels.SqlServer.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference
-		Include="Microsoft.EntityFrameworkCore.Design"
-		Version="7.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0" />
 	</ItemGroup>
 	
 </Project>
