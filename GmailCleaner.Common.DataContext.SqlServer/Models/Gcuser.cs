@@ -11,6 +11,8 @@ public partial class GCUser
 {
     [Key]
     public int UserId { get; set; }
+    [Required]
+    public string GmailId { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 

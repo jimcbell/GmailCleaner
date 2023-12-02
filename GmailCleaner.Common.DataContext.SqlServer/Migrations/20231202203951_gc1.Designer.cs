@@ -4,6 +4,7 @@ using GmailCleaner.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GmailCleaner.Common.DataContext.SqlServer.Migrations
 {
     [DbContext(typeof(GmailCleanerContext))]
-    partial class GmailCleanerContextModelSnapshot : ModelSnapshot
+    [Migration("20231202203951_gc1")]
+    partial class gc1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,16 +39,13 @@ namespace GmailCleaner.Common.DataContext.SqlServer.Migrations
 
                     b.Property<string>("GmailId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("GmailId")
-                        .IsUnique();
 
                     b.ToTable("GCUser");
                 });

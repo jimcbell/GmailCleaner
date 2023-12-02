@@ -16,9 +16,9 @@ public partial class GmailCleanerContext : DbContext
     {
     }
 
-    public virtual DbSet<GCUser> Gcusers { get; set; }
+    public virtual DbSet<GCUser> GCUsers { get; set; }
 
-    public virtual DbSet<GCUserToken> GcuserTokens { get; set; }
+    public virtual DbSet<GCUserToken> GCUserTokens { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -28,12 +28,13 @@ public partial class GmailCleanerContext : DbContext
     {
         modelBuilder.Entity<GCUser>(entity =>
         {
-            entity.Property(e => e.UserId).ValueGeneratedNever();
+            entity.Property(e => e.UserId).ValueGeneratedOnAdd();
+            entity.HasIndex(e => e.GmailId).IsUnique();
         });
 
         modelBuilder.Entity<GCUserToken>(entity =>
         {
-            entity.Property(e => e.UserTokenId).ValueGeneratedNever();
+            entity.Property(e => e.UserTokenId).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.User).WithMany(p => p.GCUserTokens)
                 .OnDelete(DeleteBehavior.ClientSetNull)

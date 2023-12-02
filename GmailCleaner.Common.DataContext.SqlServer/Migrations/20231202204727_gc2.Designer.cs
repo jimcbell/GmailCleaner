@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GmailCleaner.Common.DataContext.SqlServer.Migrations
 {
     [DbContext(typeof(GmailCleanerContext))]
-    [Migration("20231202185153_gc12.2.23-2")]
-    partial class gc122232
+    [Migration("20231202204727_gc2")]
+    partial class gc2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,70 +27,76 @@ namespace GmailCleaner.Common.DataContext.SqlServer.Migrations
 
             modelBuilder.Entity("GmailCleaner.Common.Models.GCUser", b =>
                 {
-                    b.Property<int>("GmailId")
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GmailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("GmailId")
-                        .HasName("PK__Users__EAD496F534ED7B23");
+                    b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.HasIndex("GmailId")
+                        .IsUnique();
+
+                    b.ToTable("GCUser");
                 });
 
-            modelBuilder.Entity("GmailCleaner.Common.Models.UserTokens", b =>
+            modelBuilder.Entity("GmailCleaner.Common.Models.GCUserToken", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserTokenId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserTokenId"));
 
                     b.Property<string>("AccessToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ExpiresAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GmailId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("ExpiresOn")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("IdToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("GmailId");
+                    b.HasKey("UserTokenId");
 
-                    b.ToTable("UserTokens");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GCUserToken");
                 });
 
-            modelBuilder.Entity("GmailCleaner.Common.Models.UserTokens", b =>
+            modelBuilder.Entity("GmailCleaner.Common.Models.GCUserToken", b =>
                 {
-                    b.HasOne("GmailCleaner.Common.Models.GCUser", "GCUser")
-                        .WithMany("UserTokens")
-                        .HasForeignKey("GmailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("GmailCleaner.Common.Models.GCUser", "User")
+                        .WithMany("GCUserTokens")
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_GCUserToken_GCUser");
 
-                    b.Navigation("GCUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GmailCleaner.Common.Models.GCUser", b =>
                 {
-                    b.Navigation("UserTokens");
+                    b.Navigation("GCUserTokens");
                 });
 #pragma warning restore 612, 618
         }
