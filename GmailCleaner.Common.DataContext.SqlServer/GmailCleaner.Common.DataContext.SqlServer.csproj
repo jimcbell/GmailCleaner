@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>23ede370-9bfd-4421-98f4-a193156d3f55</UserSecretsId>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\GCleaner.Common.EntityModels.SqlServer\GmailCleaner.Common.EntityModels.SqlServer.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference
+		Include="Microsoft.EntityFrameworkCore.Design"
+		Version="7.0.0" />
+	</ItemGroup>
+	
+</Project>

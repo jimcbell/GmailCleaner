@@ -5,6 +5,12 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GmailCleaner.Web.Razor", "GmailCleaner.Web.Razor\GmailCleaner.Web.Razor.csproj", "{E13EBA81-29C8-43FA-9D13-6D2108336F82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GmailCleaner.Tests", "GmailCleaner.Tests\GmailCleaner.Tests.csproj", "{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GmailCleaner.Common.EntityModels.SqlServer", "GCleaner.Common.EntityModels.SqlServer\GmailCleaner.Common.EntityModels.SqlServer.csproj", "{C619CB19-0CE5-413C-8952-B045E4FB275C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GmailCleaner.Common.DataContext.SqlServer", "GmailCleaner.Common.DataContext.SqlServer\GmailCleaner.Common.DataContext.SqlServer.csproj", "{AF037082-3991-499F-B260-6B3AFDE4B386}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{E13EBA81-29C8-43FA-9D13-6D2108336F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E13EBA81-29C8-43FA-9D13-6D2108336F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E13EBA81-29C8-43FA-9D13-6D2108336F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C619CB19-0CE5-413C-8952-B045E4FB275C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C619CB19-0CE5-413C-8952-B045E4FB275C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C619CB19-0CE5-413C-8952-B045E4FB275C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C619CB19-0CE5-413C-8952-B045E4FB275C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF037082-3991-499F-B260-6B3AFDE4B386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF037082-3991-499F-B260-6B3AFDE4B386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF037082-3991-499F-B260-6B3AFDE4B386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF037082-3991-499F-B260-6B3AFDE4B386}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
