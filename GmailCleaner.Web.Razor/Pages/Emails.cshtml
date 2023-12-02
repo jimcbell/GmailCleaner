@@ -1,0 +1,37 @@
+﻿@page
+@using GmailCleaner.Models
+@using GmailCleaner.Models.Data
+@using GmailCleaner.Pages
+@using System.Text.Json.Nodes
+@model EmailsModel
+@{
+}
+@if(Model.EmailErrors is not null)
+{
+    <div class="card alert-danger">
+        @foreach(Error error in Model.EmailErrors.Errors)
+        {
+            if(error.StatusCode is not null)
+            {
+                <span>Status Code: @error.StatusCode</span>
+            }
+            <span>Error Message: @error.Message</span>
+        }
+    </div>
+}
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>Gmail Messages</th>
+        </tr>
+        <tbody>
+            @foreach(Email email in Model.Emails)
+            {
+                <tr>
+                    <td>@email.Snippet</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
