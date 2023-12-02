@@ -19,5 +19,5 @@ public partial class GCUser
     public string Email { get; set; } = null!;
 
     [InverseProperty("User")]
-    public virtual ICollection<GCUserToken> GCUserTokens { get; set;  } = new List<GCUserToken>();
+    public virtual ICollection<GCUserToken> GCUserTokens { get; } = new List<GCUserToken>();
 }

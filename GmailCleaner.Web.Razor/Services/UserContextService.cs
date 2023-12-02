@@ -23,8 +23,8 @@ namespace GmailCleaner.Services
             //var properties = result.Result.Properties;
             string accessToken = request.HttpContext.GetTokenAsync("access_token").Result ?? string.Empty;
             string refreshToken = request.HttpContext.GetTokenAsync("refresh_token").Result ?? string.Empty;
-            DateTime expitesAt = DateTime.Parse(request.HttpContext.GetTokenAsync("expires_at").Result ?? string.Empty);
-            GmailToken gmailToken = new(accessToken, refreshToken, expitesAt);
+            DateTime expiresAt = DateTime.Parse(request.HttpContext.GetTokenAsync("expires_at").Result ?? string.Empty);
+            GmailToken gmailToken = new(accessToken, refreshToken, expiresAt);
             return gmailToken;
         }
         public string GetUserId(HttpRequest request)

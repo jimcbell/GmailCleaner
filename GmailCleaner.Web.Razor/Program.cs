@@ -9,6 +9,7 @@ using System.Text.Json;
 using GmailCleaner.Adapters;
 using GmailCleaner.Repositories;
 using GmailCleaner.Common;
+using GmailCleaner.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,14 +27,29 @@ builder.Services.AddHttpClient("google", c =>
     c.BaseAddress = new Uri("https://gmail.googleapis.com/gmail/v1");
     c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
+builder.Services.AddHttpClient("google-auth", c =>
+{
+    c.BaseAddress = new Uri(settings.GoogleTokenUrl);
+    c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+});
 
 // Custom services
 builder.Services.AddScoped<IGoogleRequestFactory, GoogleRequestFactory>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IEmailAdapter, EmailsAdapter>();
-builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<ILoginAdapter, LoginAdapter>();
+
+
+
+// Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+
+// Managers
+builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
+builder.Services.AddScoped<IUserManager, UserManager>();
+
 
 string connectionString = builder.Configuration.GetConnectionString("GmailCleaner") ?? string.Empty;
 builder.Services.AddGmailCleanerContext(connectionString);
