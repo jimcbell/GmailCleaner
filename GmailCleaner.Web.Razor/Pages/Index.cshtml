@@ -7,13 +7,20 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <div class="card border-dark" style="padding: 20px">
-        <div style="padding: 10px"><span>Please log in to access features.</span></div>
-        <div>
-            <a class="btn btn-primary" href="https://localhost:8080/login" style="width: 85px">Login</a>
-
+    @if (Model.IsAuthenticated)
+    {
+        <div class="card border-dark" style="padding: 20px">
+            <div style="padding: 10px"><span>Thanks for logging in @Model.GCUser.Name</span></div>
+            <a class="btn btn-outline-success" asp-page="Emails" asp-route-userId="@Model.UserId">Take me to my Emails!</a>
         </div>
-
-    </div>
+    }
+    else
+    {
+        <div class="card border-dark" style="padding: 20px">
+            <div style="padding: 10px"><span>Please log in to access features.</span></div>
+            <div>
+                <a class="btn btn-primary" href="https://localhost:8080/login" style="width: 85px">Login</a>
+            </div>
+        </div>
+    }
 </div>

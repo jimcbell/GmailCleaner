@@ -1,3 +1,5 @@
+using GmailCleaner.Adapters;
+using GmailCleaner.Common.Models;
 using GmailCleaner.Models.ExternalModels;
 using GmailCleaner.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,22 +12,38 @@ namespace GmailCleaner.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private IUserContextService _contextService;
+        private IHomeAdapter _homeAdapter;
+        private IConfiguration _config;
 
-        public IndexModel(ILogger<IndexModel> logger, IUserContextService contextService)
+        public bool IsAuthenticated { get; set; } = false;
+        public int UserId { get; set; } = 0;
+        public GCUser GCUser { get; set; } = new GCUser();
+
+        public IndexModel(ILogger<IndexModel> logger, IHomeAdapter homeAdapter, IConfiguration config)
         {
             _logger = logger;
-            _contextService = contextService;
+            _homeAdapter = homeAdapter;
+            _config = config;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            var x = _config["tf-state-storage-key"];
             ClaimsPrincipal claimsPrincipal = User;
             if (claimsPrincipal.Identity != null && claimsPrincipal.Identity.IsAuthenticated)
             {
-                GmailUserModel gmailUser = _contextService.GetUser(Request);
-                string userId = _contextService.GetUserId(Request);
-                return RedirectToPage("Emails", new { userId = userId.ToString() });
+                var user = await _homeAdapter.GetUser(Request);
+                if (user != null)
+                {
+                    IsAuthenticated = true;
+                    GCUser = user;
+                    UserId = user.UserId;
+                    return Page();
+                }
+                else
+                {
+                    return RedirectToPage("Error", new { error = "User not found" });
+                }
             }
             else
             {

@@ -16,8 +16,7 @@ public class EmailsModel : PageModel
 
     public List<Email> Emails { get; set; } = new List<Email>();
     public ErrorModel EmailErrors { get; set; } = new();
-    private string accessToken { get; set; } = string.Empty;
-    private string userId { get; set; } = string.Empty;
+    private int userId { get; set; }
 
 
 
@@ -27,12 +26,12 @@ public class EmailsModel : PageModel
         _contextService = contextService;
 
     }
-    public PageResult OnGet(string userId = "")
+    public PageResult OnGet(int userId)
     {
 
-        if (string.IsNullOrEmpty(userId))
+        if (userId < 1)
         {
-            throw new Exception("User Id is not valid");
+            RedirectToPage("Error", new { error = "User Id is required" });
         }
         else
         {
@@ -47,7 +46,7 @@ public class EmailsModel : PageModel
     {
         //string accessToken = _contextService.GetToken(Request);
         //AccessToken = accessToken;
-        Emails = await _emailAdapter.GetEmails(accessToken, filter);
+        Emails = await _emailAdapter.GetEmails(Request, filter);
         //Response.Cookies.Append(key: "access_token", accessToken);
         return Page();
     }
