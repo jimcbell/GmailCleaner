@@ -32,20 +32,22 @@ namespace GmailCleaner.Repositories
         }
         public async Task<EmailMetadatas> GetEmailMetadatas(string query, int maxEmails = 5)
         {
+            checkAccessToken();
             HttpClient client = _clientFactory.CreateClient(_clientName);
             string queryParams = createMetadataQueryParams(query, maxEmails);
             HttpRequestMessage request = _requestFactory.CreateGetEmailIdsRequest(_accessToken, queryParams);
             HttpResponseMessage response = await client.SendAsync(request);
-            string resonseText = await response.Content.ReadAsStringAsync();    
+            string resonseText = await response.Content.ReadAsStringAsync();
             EmailMetadatas emailMetadatas = await response.Content.ReadFromJsonAsync<EmailMetadatas>() ?? new EmailMetadatas();
             return emailMetadatas;
         }
 
         private string createMetadataQueryParams(string query, int maxEmails)
         {
+            checkAccessToken(); 
             StringBuilder sb = new StringBuilder();
             sb.Append("?");
-            if (!string.IsNullOrEmpty(query)) 
+            if (!string.IsNullOrEmpty(query))
             {
                 sb.Append($"q={query}");
             }
@@ -56,17 +58,19 @@ namespace GmailCleaner.Repositories
 
         public async Task<Email> GetEmail(string emailId)
         {
+            checkAccessToken();
             HttpClient client = _clientFactory.CreateClient(_clientName);
             HttpRequestMessage request = _requestFactory.CreateGetEmailRequest(_accessToken, emailId);
             HttpResponseMessage response = await client.SendAsync(request);
             Email email = await response.Content.ReadFromJsonAsync<Email>() ?? new Email();
-            string responseText = await response.Content.ReadAsStringAsync();   
+            string responseText = await response.Content.ReadAsStringAsync();
             return email;
         }
         public async Task<List<Email>> GetEmails(List<string> emailIds)
         {
+            checkAccessToken();
             List<Email> emails = new List<Email>();
-            foreach(string emailId in emailIds)
+            foreach (string emailId in emailIds)
             {
                 Email email = await GetEmail(emailId);
                 emails.Add(email);
@@ -77,6 +81,10 @@ namespace GmailCleaner.Repositories
         public void LoadAccessToken(string accessToken)
         {
             this._accessToken = accessToken;
+        }
+        private void checkAccessToken()
+        {
+            if (string.IsNullOrEmpty(_accessToken)) { throw new Exception("Access token is not loaded"); }
         }
 
     }

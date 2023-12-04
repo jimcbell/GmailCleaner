@@ -10,6 +10,7 @@ namespace GmailCleaner.Repositories
     public interface ITokenRepository
     {
         public Task<GCUserToken> GetTokenAsync(int tokenId);
+        public Task<GCUserToken> GetTokenByUserIdAsync(int userId);
         public Task<GCUserToken> UpsertTokenAsync(GCUserToken token);
         public Task<bool> DeleteTokenAsync(int tokenId);
         public Task<GCUserToken> GetNewTokenAsync(string refreshToken);
@@ -56,9 +57,9 @@ namespace GmailCleaner.Repositories
                 AccessToken = refreshResponse.AccessToken,
                 ExpiresOn = DateTime.Now + TimeSpan.FromSeconds(refreshResponse.ExpiresIn),
                 RefreshToken = refreshToken,
-                IdToken = ""
+                IdToken = refreshResponse.IdToken
             };
-            return new GCUserToken();
+            return token;
         }
 
         public async Task<GCUserToken> GetTokenAsync(int tokenId)
@@ -70,6 +71,16 @@ namespace GmailCleaner.Repositories
                     throw new Exception($"Token with ID {tokenId} not found or has corrupted data");
                 }
                 return token;
+        }
+
+        public async Task<GCUserToken> GetTokenByUserIdAsync(int userId)
+        {
+            GCUserToken? token = await _context.GCUserTokens.Where(t => t.UserId == userId).FirstOrDefaultAsync<GCUserToken>();
+            if (token == null || token.AccessToken == null || token.RefreshToken == null)
+            {
+                throw new Exception($"Token with user ID {userId} not found or has corrupted data");
+            }
+            return token;
         }
 
         public async Task<GCUserToken> UpsertTokenAsync(GCUserToken token)
@@ -89,7 +100,10 @@ namespace GmailCleaner.Repositories
                 {
                     userToken.RefreshToken = token.RefreshToken;
                 }
-                userToken.IdToken = token.IdToken;
+                if (!string.IsNullOrEmpty(token.IdToken))
+                {
+                    userToken.IdToken = token.IdToken;
+                }
             }
             await _context.SaveChangesAsync();
             return userToken;

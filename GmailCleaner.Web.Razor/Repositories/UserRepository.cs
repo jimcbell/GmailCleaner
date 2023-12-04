@@ -27,23 +27,21 @@ namespace GmailCleaner.Repositories
         /// <returns></returns>
         public async Task<GCUser> UpsertTokenAsync(GCUser user, GCUserToken token)
         {
-            using (_context)
+
+            GCUserToken? existingToken = await _context.GCUserTokens.Where(t => t.UserId == user.UserId).FirstOrDefaultAsync();
+            if (existingToken == null)
             {
-                GCUserToken? existingToken = await _context.GCUserTokens.Where(t => t.UserId == user.UserId).FirstOrDefaultAsync();
-                if (existingToken == null)
-                {
-                    user.GCUserTokens.Add(token);
-                }
-                else
-                {
-                    existingToken.AccessToken = token.AccessToken;
-                    existingToken.ExpiresOn = token.ExpiresOn;
-                    existingToken.IdToken = token.IdToken;
-                    existingToken.RefreshToken = token.RefreshToken;
-                }
-                await _context.SaveChangesAsync();
-                return user;
+                user.GCUserTokens.Add(token);
             }
+            else
+            {
+                existingToken.AccessToken = token.AccessToken;
+                existingToken.ExpiresOn = token.ExpiresOn;
+                existingToken.IdToken = token.IdToken;
+                existingToken.RefreshToken = token.RefreshToken;
+            }
+            await _context.SaveChangesAsync();
+            return user;
         }
         /// <summary>
         /// Get a user by their ID
@@ -53,17 +51,15 @@ namespace GmailCleaner.Repositories
         /// <exception cref="Exception"></exception>
         public async Task<GCUser> GetUserAsync(int userId)
         {
-            using (_context)
+
+            GCUser? user = await _context.GCUsers.Where(u => u.UserId == userId).Include(x => x.GCUserTokens).FirstOrDefaultAsync();
+            if (user == null)
             {
-                GCUser? user = await _context.GCUsers.Where(u => u.UserId == userId).Include(x => x.GCUserTokens).FirstOrDefaultAsync();
-                if (user == null)
-                {
-                    throw new Exception("User not found");
-                }
-                else
-                {
-                    return user;
-                }
+                throw new Exception("User not found");
+            }
+            else
+            {
+                return user;
             }
         }
         /// <summary>
@@ -75,19 +71,19 @@ namespace GmailCleaner.Repositories
         public async Task<GCUser> UpsertUserAsync(GCUser user)
         {
 
-                GCUser? existingUser = await _context.GCUsers.Include(u => u.GCUserTokens).Where(u => u.GmailId == user.GmailId).FirstOrDefaultAsync();
-                if (existingUser == null)
-                {
-                    existingUser = user;
-                    _context.GCUsers.Add(existingUser);
-                }
-                else
-                {
-                    existingUser.Name = user.Name;
-                    existingUser.Email = user.Email;
-                }
-                await _context.SaveChangesAsync();
-                return existingUser;
+            GCUser? existingUser = await _context.GCUsers.Include(u => u.GCUserTokens).Where(u => u.GmailId == user.GmailId).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                existingUser = user;
+                _context.GCUsers.Add(existingUser);
+            }
+            else
+            {
+                existingUser.Name = user.Name;
+                existingUser.Email = user.Email;
+            }
+            await _context.SaveChangesAsync();
+            return existingUser;
         }
         public Task<bool> DeleteUserAsync(int userId)
         {
@@ -96,8 +92,8 @@ namespace GmailCleaner.Repositories
 
         public async Task<int> GetUserIdAsync(string gmailId)
         {
-  
-                return await _context.GCUsers.Where(u => u.GmailId == gmailId).Select(u => u.UserId).FirstOrDefaultAsync();
+
+            return await _context.GCUsers.Where(u => u.GmailId == gmailId).Select(u => u.UserId).FirstOrDefaultAsync();
         }
     }
 }
