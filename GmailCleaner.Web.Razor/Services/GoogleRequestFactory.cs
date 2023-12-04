@@ -13,10 +13,12 @@ namespace GmailCleaner.Services
     {
 
         private GoogleApiSettings _settings;
+        private IConfiguration _config;
 
-        public GoogleRequestFactory(GoogleApiSettings settings)
+        public GoogleRequestFactory(IConfiguration config, GoogleApiSettings settings)
         {
             _settings = settings;
+            _config = config;
         }
         public HttpRequestMessage CreateGetEmailIdsRequest(string accessToken, string filter)
         {
@@ -37,8 +39,8 @@ namespace GmailCleaner.Services
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, string.Empty);
             requestMessage.Content = new FormUrlEncodedContent(new Dictionary<string, string>()
             {
-                { "client_id", _settings.ClientId },
-                { "client_secret", _settings.ClientSecret },
+                { "client_id", _config["gmail-cleaner-client-id"] ?? string.Empty },
+                { "client_secret", _config["gmail-cleaner-client-secret"] ?? string.Empty },
                 { "refresh_token", refreshToken },
                 { "grant_type", "refresh_token" }
             });
