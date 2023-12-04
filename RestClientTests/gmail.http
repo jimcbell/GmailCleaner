@@ -1,0 +1,15 @@
+GET https://gmail.googleapis.com/gmail/v1/users/me/messages
+Authorization: Bearer 
+
+###
+GET https://gmail.googleapis.com/gmail/v1/users/me/messages/18c2cdb8f2efb249
+Authorization: Bearer 
+
+###
+POST https://oauth2.googleapis.com/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=
+&client_secret=
+&refresh_token=
+&grant_type=refresh_token
