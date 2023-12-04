@@ -1,15 +1,22 @@
-using GmailCleaner.Models.Settings;
-using GmailCleaner.Services;
+using System;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.HttpLogging;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text.Json;
-using GmailCleaner.Adapters;
-using GmailCleaner.Repositories;
-using GmailCleaner.Common;
-using GmailCleaner.Managers;
+using Microsoft.AspNetCore.HttpLogging; //Http Logging Fields
+using System.Net.Http.Headers; //MediaTypeWithQualityHeaderValue, AuthenticationHeaderValue
+using System.Security.Claims; // ClaimTypes
+using System.Text.Json; // JsonElement
+using GmailCleaner.Adapters; // IEmailAdapter, ILoginAdapter, IHomeAdapter
+using GmailCleaner.Repositories; // IEmailRepository, ITokenRepository, IUserRepository
+using GmailCleaner.Common; // GmailCleanerContext
+using GmailCleaner.Managers; // IAccessTokenManager, IUserManager
+using GmailCleaner.Services; // IUserContextService, IGoogleRequestFactory
+using GmailCleaner.Models.Settings; // GoogleApiSettings
+using Azure.Identity; // DefaultAzureCredential
+//using Azure.Security.KeyVault.Secrets; // SecretClient
+using Microsoft.Extensions.Configuration; // AddAzureKeyVault
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +28,12 @@ builder.Services.AddRazorPages();
 GoogleApiSettings settings = builder.Configuration.GetSection("GoogleApiSettings").Get<GoogleApiSettings>() ?? new GoogleApiSettings();
 builder.Services.AddSingleton<GoogleApiSettings>(settings);
 
-// Register Http Clients
+// Get the database connection string from Key Vault
+string keyVaultUrl = builder.Configuration["KeyVaultUrl"] ?? string.Empty;
+//var client = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+//var connectionString = client.GetSecret("GmailCleanerConnectionString").Value.Value;
+
+// Http Clients
 builder.Services.AddHttpClient("google", c =>
 {
     c.BaseAddress = new Uri("https://gmail.googleapis.com/gmail/v1");
@@ -33,11 +45,27 @@ builder.Services.AddHttpClient("google-auth", c =>
     c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
-// Custom services
-builder.Services.AddScoped<IGoogleRequestFactory, GoogleRequestFactory>();
+// Add azure key vault
+builder.Configuration.AddAzureKeyVault(new Uri(keyVaultUrl), new DefaultAzureCredential());
+
+// Get secret values required for startup
+var connectionString = builder.Configuration["gmail-cleaner-db-connection-string"] ?? string.Empty;
+var clientId = builder.Configuration["gmail-cleaner-client-id"] ?? string.Empty;
+var clientSecret = builder.Configuration["gmail-cleaner-client-secret"] ?? string.Empty;
+
+
+// Add database context based off connection string in azure keyvault
+builder.Services.AddGmailCleanerContext(connectionString);
+
+// Services
 builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddScoped<IGoogleRequestFactory, GoogleRequestFactory>();
+
+
+// Adapters
 builder.Services.AddScoped<IEmailAdapter, EmailsAdapter>();
 builder.Services.AddScoped<ILoginAdapter, LoginAdapter>();
+builder.Services.AddScoped<IHomeAdapter, HomeAdapter>();
 
 
 
@@ -51,9 +79,6 @@ builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 
 
-string connectionString = builder.Configuration.GetConnectionString("GmailCleaner") ?? string.Empty;
-builder.Services.AddGmailCleanerContext(connectionString);
-
 
 // Add authentication
 builder.Services.AddAuthentication("cookie")
@@ -62,8 +87,8 @@ builder.Services.AddAuthentication("cookie")
     {
         o.SignInScheme = "cookie";
 
-        o.ClientId = settings.ClientId;
-        o.ClientSecret = settings.ClientSecret;
+        o.ClientId = clientId;
+        o.ClientSecret = clientSecret;
 
         o.AuthorizationEndpoint = settings.GoogleAuthUrl;
         o.TokenEndpoint = settings.GoogleTokenUrl;
