@@ -84,7 +84,8 @@ namespace GmailCleaner.Adapters
             {
                 AccessToken = gmailToken.AccessToken,
                 RefreshToken = gmailToken.RefreshToken,
-                ExpiresOn = gmailToken.ExpiresAt
+                ExpiresOn = gmailToken.ExpiresAt,
+                IdToken = gmailToken.IdToken
             };
             return userToken;
         }
