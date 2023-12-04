@@ -12,4 +12,6 @@ public class RefreshResponse
     public string Scope { get; set; } = string.Empty;
     [JsonPropertyName("token_type")]
     public string TokenType { get; set; } = string.Empty;
+    [JsonPropertyName("id_token")]
+    public string IdToken { get; set; } = string.Empty;
 }
