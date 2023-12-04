@@ -5,8 +5,6 @@
     /// </summary>
     public class GoogleApiSettings
     {
-        public string ClientId { get; set; } = string.Empty;
-        public string ClientSecret { get; set; } = string.Empty;
         public string RedirectUri { get; set; } = string.Empty;
         public string GrantType { get; set; } = string.Empty;
         public string GoogleAuthUrl { get; set; } = string.Empty;
