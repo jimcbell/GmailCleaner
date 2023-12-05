@@ -5,8 +5,8 @@ namespace GmailCleaner.Models.Data
 {
     public class GmailCleanerEmail
     {
-        private static readonly string HTML = "text/html";
-        private static readonly string PLAIN = "text/plain";
+        //private static readonly string HTML = "text/html";
+        //private static readonly string PLAIN = "text/plain";
         public string Id { get; set; } = string.Empty;
         public string ThreadId { get; set; } = string.Empty;
         public string Snippet { get; set; } = string.Empty;
@@ -35,7 +35,7 @@ namespace GmailCleaner.Models.Data
             this.From = email.Payload.Headers.Where(h => h.Name == "From").FirstOrDefault()?.Value ?? string.Empty;
             this.Subject = email.Payload.Headers.Where(h => h.Name == "Subject").FirstOrDefault()?.Value ?? string.Empty;
             this.ListUnsubscribe = email.Payload.Headers.Where(h => h.Name == "List-Unsubscribe").FirstOrDefault()?.Value ?? string.Empty;
-            this.ContentType = email.Payload.MimeType;
+            //this.ContentType = email.Payload.MimeType;
             
             //this.HtmlBody = email.Payload.Parts.Where(p => p.MimeType == "text/html").FirstOrDefault()?.Body.Data ?? string.Empty;
             //this.PlainBody = email.Payload.Parts.Where(p => p.MimeType == "text/plain").FirstOrDefault()?.Body.Data ?? string.Empty;

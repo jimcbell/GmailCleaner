@@ -16,6 +16,18 @@ namespace GmailCleaner.Models.ExternalModels
         public string HistoryId { get; set; } = string.Empty;
         public string InternalDate { get; set; } = string.Empty;
         public MessagePart Payload { get; set; } = new();
+        public string ListUnsubscribe { 
+            get => this.Payload.Headers.Where(h => h.Name == "List-Unsubscribe").FirstOrDefault()?.Value ?? string.Empty;
+        }
+        public string Subject 
+        { 
+            get => this.Payload.Headers.Where(h => h.Name == "Subject").FirstOrDefault()?.Value ?? string.Empty;
+        }
+        private string _from = string.Empty;
+        public string From
+        {
+            get => this.Payload.Headers.Where(h => h.Name == "From").FirstOrDefault()?.Value ?? string.Empty;
+        }
 
     }
     public class MessagePart

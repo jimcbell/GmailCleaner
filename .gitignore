@@ -12,7 +12,7 @@
 **appsettings.Development.json
 **secret-variables.tf
 **gmail.http
-
+terraform/.terraform
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

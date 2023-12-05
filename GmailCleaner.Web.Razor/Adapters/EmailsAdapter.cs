@@ -11,7 +11,7 @@ namespace GmailCleaner.Adapters
 {
     public interface IEmailAdapter
     {
-        public Task<List<GmailCleanerEmail>> GetEmails(HttpRequest request, string filter = "");
+        public Task<List<Email>> GetEmails(HttpRequest request, string filter = "");
     }
     public class EmailsAdapter : IEmailAdapter
     {
@@ -29,11 +29,11 @@ namespace GmailCleaner.Adapters
             _userManager = userManager;
 
         }
-        public async Task<List<GmailCleanerEmail>> GetEmails(HttpRequest request, string filter = "")
+        public async Task<List<Email>> GetEmails(HttpRequest request, string filter = "")
         {
             GCUser user = await getUser(request);
 
-            List<GmailCleanerEmail> emails = new List<GmailCleanerEmail>();
+            List<Email> emails = new List<Email>();
 
             string accessToken = await _accessManager.GetAccessTokenAsync(user.UserId);
             _emailRepository.LoadAccessToken(accessToken);

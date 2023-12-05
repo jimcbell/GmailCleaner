@@ -15,7 +15,7 @@ public class EmailsModel : PageModel
     private IEmailAdapter _emailAdapter;
     private IUserContextService _contextService;
 
-    public List<GmailCleanerEmail> Emails { get; set; } = new List<GmailCleanerEmail>();
+    public List<Email> Emails { get; set; } = new List<Email>();
     public ErrorModel EmailErrors { get; set; } = new();
     private int userId { get; set; }
 
@@ -45,6 +45,7 @@ public class EmailsModel : PageModel
     }
     public async Task<PageResult> OnPost(string filter = "")
     {
+
         //string accessToken = _contextService.GetToken(Request);
         //AccessToken = accessToken;
         Emails = await _emailAdapter.GetEmails(Request, filter);

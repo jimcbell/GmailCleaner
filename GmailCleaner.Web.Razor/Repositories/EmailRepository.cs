@@ -10,8 +10,8 @@ namespace GmailCleaner.Repositories
     public interface IEmailRepository
     {
         public void LoadAccessToken(string accessToken);
-        public Task<GmailCleanerEmail> GetEmail(string emailId);
-        public Task<List<GmailCleanerEmail>> GetEmails(List<string> emailIds);
+        public Task<Email> GetEmail(string emailId);
+        public Task<List<Email>> GetEmails(List<string> emailIds);
         public Task<EmailMetadatas> GetEmailMetadatas(string query, int maxEmails = 5);
     }
     public class EmailRepository : IEmailRepository
@@ -57,24 +57,23 @@ namespace GmailCleaner.Repositories
             return queryParams;
         }
 
-        public async Task<GmailCleanerEmail> GetEmail(string emailId)
+        public async Task<Email> GetEmail(string emailId)
         {
             checkAccessToken();
             HttpClient client = _clientFactory.CreateClient(_clientName);
             HttpRequestMessage request = _requestFactory.CreateGetEmailRequest(_accessToken, emailId);
             HttpResponseMessage response = await client.SendAsync(request);
             Email email = await response.Content.ReadFromJsonAsync<Email>() ?? new Email();
-            GmailCleanerEmail gmailCleanerEmail = new GmailCleanerEmail(email);
             string responseText = await response.Content.ReadAsStringAsync();
-            return gmailCleanerEmail;
+            return email;
         }
-        public async Task<List<GmailCleanerEmail>> GetEmails(List<string> emailIds)
+        public async Task<List<Email>> GetEmails(List<string> emailIds)
         {
             checkAccessToken();
-            List<GmailCleanerEmail> emails = new List<GmailCleanerEmail>();
+            List<Email> emails = new List<Email>();
             foreach (string emailId in emailIds)
             {
-                GmailCleanerEmail email = await GetEmail(emailId);
+                Email email = await GetEmail(emailId);
                 emails.Add(email);
             }
             return emails;

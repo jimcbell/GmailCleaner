@@ -13,7 +13,6 @@ using GmailCleaner.Services; // IUserContextService, IGoogleRequestFactory
 using GmailCleaner.Models.Settings; // GoogleApiSettings
 using Azure.Identity; // DefaultAzureCredential
 //using Azure.Security.KeyVault.Secrets; // SecretClient
-using Microsoft.Extensions.Configuration; // AddAzureKeyVault
 
 
 
