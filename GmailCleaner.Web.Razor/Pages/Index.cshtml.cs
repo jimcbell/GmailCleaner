@@ -28,7 +28,6 @@ namespace GmailCleaner.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            var x = _config["tf-state-storage-key"];
             ClaimsPrincipal claimsPrincipal = User;
             if (claimsPrincipal.Identity != null && claimsPrincipal.Identity.IsAuthenticated)
             {

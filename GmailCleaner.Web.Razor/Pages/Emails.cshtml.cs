@@ -1,6 +1,7 @@
 using GmailCleaner.Adapters;
 using GmailCleaner.Models;
 using GmailCleaner.Models.Data;
+using GmailCleaner.Models.ExternalModels;
 using GmailCleaner.Models.Settings;
 using GmailCleaner.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -14,7 +15,7 @@ public class EmailsModel : PageModel
     private IEmailAdapter _emailAdapter;
     private IUserContextService _contextService;
 
-    public List<Email> Emails { get; set; } = new List<Email>();
+    public List<GmailCleanerEmail> Emails { get; set; } = new List<GmailCleanerEmail>();
     public ErrorModel EmailErrors { get; set; } = new();
     private int userId { get; set; }
 

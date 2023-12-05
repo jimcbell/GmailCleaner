@@ -52,7 +52,10 @@ builder.Configuration.AddAzureKeyVault(new Uri(keyVaultUrl), new DefaultAzureCre
 var connectionString = builder.Configuration["gmail-cleaner-db-connection-string"] ?? string.Empty;
 var clientId = builder.Configuration["gmail-cleaner-client-id"] ?? string.Empty;
 var clientSecret = builder.Configuration["gmail-cleaner-client-secret"] ?? string.Empty;
-
+if (connectionString == string.Empty || clientId == string.Empty || clientSecret == string.Empty)
+{
+    throw new Exception("Missing required configuration values");
+}
 
 // Add database context based off connection string in azure keyvault
 builder.Services.AddGmailCleanerContext(connectionString);
