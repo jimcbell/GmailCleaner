@@ -27,7 +27,7 @@ namespace GmailCleaner.Managers
             {
                 _logger.LogInformation($"Getting access token for user with ID {userId}");
                 GCUserToken token = await _tokenRepository.GetTokenByUserIdAsync(userId);
-                if(token.ExpiresOn > DateTime.Now - TimeSpan.FromMinutes(5))
+                if(token.ExpiresOn > DateTime.Now + TimeSpan.FromMinutes(5))
                 {
                     _logger.LogInformation($"Token for user with ID {userId} is still valid");
                 }
