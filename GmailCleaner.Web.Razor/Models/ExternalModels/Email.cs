@@ -28,6 +28,39 @@ namespace GmailCleaner.Models.ExternalModels
         {
             get => this.Payload.Headers.Where(h => h.Name == "From").FirstOrDefault()?.Value ?? string.Empty;
         }
+        public string FromEmail {             
+            get
+            {
+                string from = this.Payload.Headers.Where(h => h.Name == "From").FirstOrDefault()?.Value ?? string.Empty;
+                string email = from.Split('<')[1].Split('>')[0];
+                return email;
+            }
+        }
+        public string UnsubscribeLink
+        {
+            get
+            {
+                string unsubscribeLink = string.Empty;
+                string listUnsubscribe = this.Payload.Headers.Where(h => h.Name == "List-Unsubscribe").FirstOrDefault()?.Value ?? string.Empty;
+                if (listUnsubscribe != string.Empty)
+                {
+                    int https = listUnsubscribe.IndexOf("https://");
+                    if (https > -1)
+                    {
+                        try
+                        {
+                            listUnsubscribe = listUnsubscribe.Substring(https).Split('>')[0];
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            listUnsubscribe = string.Empty;
+                        }
+                    }
+                }
+                return listUnsubscribe;
+            }
+        }
 
     }
     public class MessagePart
