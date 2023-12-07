@@ -12,15 +12,10 @@ using System.Text.Json.Nodes; // JsonNode
 
 namespace GmailCleaner.Pages;
 
-[ResponseCache(Duration = 200 /* seconds */, Location = ResponseCacheLocation.Any)]
 public class EmailsModel : PageModel
 {
     private IEmailAdapter _emailAdapter;
     private IUserContextService _contextService;
-
-    [BindProperty]
-    [Range(0, 25)]
-    public int NumberEmails { get; set; } = 5;
 
     public List<Email> Emails { get; set; } = new List<Email>();
     public ErrorModel EmailErrors { get; set; } = new();
@@ -50,18 +45,20 @@ public class EmailsModel : PageModel
         //Response.Cookies.Append(key: "access_token", accessToken);
         return Page();
     }
-    public async Task<PageResult> OnPost(string filter = "")
+
+    public async Task<PageResult> OnPost(int numRequests)
     {
-        if (ModelState.IsValid)
+        if (numRequests > 100)
         {
-            Console.Write("Model is valid");
+            numRequests = 100;
         }
-        else {
-            NumberEmails = 25;
+        if(numRequests < 1)
+        {
+            numRequests = 1;
         }
         //string accessToken = _contextService.GetToken(Request);
         //AccessToken = accessToken;
-        Emails = await _emailAdapter.GetEmails(Request, NumberEmails);
+        Emails = await _emailAdapter.GetEmails(Request, numRequests);
         //Response.Cookies.Append(key: "access_token", accessToken);
         return Page();
     }

@@ -22,10 +22,9 @@
     </div>
 }
 <form method="post" class="row g-3">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="mb-3 text-center form-group">
-        <label asp-for="NumberEmails"class="form-label">Number of Emails</label>
-        <input class="form-control text-center" id="formGroupNumber" asp-for="NumberEmails">
+    <div class="mb-3 text-center">
+        <label for="numRequests" class="form-label" >Number of Emails</label>
+        <input type="number" placeholder="5" class="form-control text-center" id="formGroupNumber" for="numRequests">
     </div>
     <div class="col-12 mb-3 text-center">
         <button type="submit" class="btn btn-primary">Check My Inbox!</button>
@@ -62,14 +61,13 @@
                                         @email.Snippet
                                     </span>
                                 </div>
+                                <div class="text-center">
+                                    <a class="btn btn-outline-danger" href="@email.UnsubscribeLink" target="_blank">
+                                        Unsubscribe Here
+                                    </a>
+                                </div>
                             </div>
-
                         </div>
-                    </div>
-                    <div class="col-1">
-                        <a class="btn btn-outline-success float-end end-100 justify-content-end text-end" href="@email.UnsubscribeLink" target="_blank">
-                            Unsubscribe
-                        </a>
                     </div>
                 </div>
                 
