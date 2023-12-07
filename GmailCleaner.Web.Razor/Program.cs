@@ -16,7 +16,6 @@ using Azure.Identity; // DefaultAzureCredential
 
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -80,6 +79,10 @@ builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 
+builder.Services.AddOutputCache(options =>
+{
+    options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(10);
+});
 
 
 // Add authentication
@@ -134,6 +137,20 @@ builder.Services.AddHttpLogging(logging =>
     logging.ResponseBodyLogLimit = 4096;
 });
 
+builder.Services.AddOutputCache(options =>
+{
+    options.AddPolicy("cachePolicy", builder =>
+    {
+        builder.Expire(TimeSpan.FromSeconds(100));
+    });
+});
+
+//builder.Services.AddRateLimiter(options =>
+//{
+    
+//});
+
+
 var app = builder.Build();
 if(app.Environment.IsDevelopment())
 {
@@ -156,7 +173,8 @@ app.MapGet("/login", () =>
         new AuthenticationProperties() { RedirectUri = "/loginsuccess" },
         authenticationSchemes: new List<string>() { "google" });
 });
+app.UseOutputCache();
 
-app.MapRazorPages();
+app.MapRazorPages().CacheOutput();
 
 app.Run();
