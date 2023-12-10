@@ -6,17 +6,17 @@ using GmailCleaner.Services;
 
 namespace GmailCleaner.Adapters
 {
-    public interface IHomeAdapter
+    public interface IIdentityAdapter
     {
         public Task<GCUser?> GetUser(HttpRequest request);
     }
-    public class HomeAdapter : IHomeAdapter
+    public class IdentityAdapter : IIdentityAdapter
     {
         private IUserManager _userManager;
-        private ILogger<HomeAdapter> _logger;
+        private ILogger<IdentityAdapter> _logger;
         private IUserContextService _contextService;
 
-        public HomeAdapter(ILogger<HomeAdapter> logger, IUserManager userManager, IUserContextService contextService)
+        public IdentityAdapter(ILogger<IdentityAdapter> logger, IUserManager userManager, IUserContextService contextService)
         {
             _userManager = userManager;
             _logger = logger;

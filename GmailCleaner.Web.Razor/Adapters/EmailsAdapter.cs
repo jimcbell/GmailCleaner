@@ -3,7 +3,6 @@ using GmailCleaner.Managers;
 using GmailCleaner.Models.Data;
 using GmailCleaner.Models.ExternalModels;
 using GmailCleaner.Models.Settings;
-using GmailCleaner.Repositories;
 using GmailCleaner.Services;
 using System.Runtime;
 
@@ -15,13 +14,13 @@ namespace GmailCleaner.Adapters
     }
     public class EmailsAdapter : IEmailAdapter
     {
-        private IEmailRepository _emailRepository;
+        private IEmailManager _emailRepository;
         private IUserContextService _userContextService;
         private IAccessTokenManager _accessManager;
         private IUserManager _userManager;
 
 
-        public EmailsAdapter(IEmailRepository emailRepository, IUserContextService contextService, IAccessTokenManager accessManager, IUserManager userManager)
+        public EmailsAdapter(IEmailManager emailRepository, IUserContextService contextService, IAccessTokenManager accessManager, IUserManager userManager)
         {
             _emailRepository = emailRepository;
             _userContextService = contextService;
@@ -31,6 +30,7 @@ namespace GmailCleaner.Adapters
         }
         public async Task<List<Email>> GetEmails(HttpRequest request, int numberEmails, string filter = "")
         {
+            // Functionality replaces
             GCUser user = await getUser(request);
 
             List<Email> emails = new List<Email>();
