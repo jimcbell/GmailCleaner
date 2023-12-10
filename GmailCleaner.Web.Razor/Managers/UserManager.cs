@@ -12,6 +12,7 @@ public interface IUserManager
     public Task<GCUser> GetUserAsync(string gmailId);
     public Task<GCUser> UpsertUserAsync(GCUser user, GCUserToken userToken);
     public Task<bool> DeleteUserAsync(int userId);
+    public Task<GCUser> IncrementUserUsageAsync(GCUser user);
 }
 
 public class UserManager : IUserManager
@@ -76,6 +77,20 @@ public class UserManager : IUserManager
             GCUser upsertedUser = await _userRepository.UpsertUserAsync(user);
             userToken.UserId = upsertedUser.UserId;
             await _tokenRepository.UpsertTokenAsync(userToken);
+            return upsertedUser;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error getting user with ID {user.UserId}");
+            throw;
+        }
+    }
+    public async Task<GCUser> IncrementUserUsageAsync(GCUser user)
+    {
+        try
+        {
+            user.Usages++;
+            GCUser upsertedUser = await _userRepository.UpsertUserAsync(user);
             return upsertedUser;
         }
         catch (Exception e)
