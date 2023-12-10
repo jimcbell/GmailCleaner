@@ -11,7 +11,11 @@
     {
         <div class="card border-dark" style="padding: 20px">
             <div style="padding: 10px"><span>Thanks for logging in @Model.GCUser.Name</span></div>
-            <a class="btn btn-outline-success" asp-page="Emails" asp-route-userId="@Model.UserId">Take me to my Emails!</a>
+            <form method="post" class="row g-3">
+                <div class="col-12 mb-3 text-center">
+                    <button type="submit" class="btn btn-primary">Analyze My Inbox!</button>
+                </div>
+            </form>
         </div>
     }
     else

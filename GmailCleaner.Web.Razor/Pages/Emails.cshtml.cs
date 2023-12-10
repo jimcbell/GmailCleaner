@@ -48,14 +48,7 @@ public class EmailsModel : PageModel
 
     public async Task<PageResult> OnPost(int numRequests)
     {
-        if (numRequests > 100)
-        {
-            numRequests = 100;
-        }
-        if(numRequests < 1)
-        {
-            numRequests = 1;
-        }
+        numRequests = 100;
         //string accessToken = _contextService.GetToken(Request);
         //AccessToken = accessToken;
         Emails = await _emailAdapter.GetEmails(Request, numRequests);
