@@ -20,4 +20,6 @@ public partial class GCUser
 
     [InverseProperty("User")]
     public virtual ICollection<GCUserToken> GCUserTokens { get; } = new List<GCUserToken>();
+    [InverseProperty("User")]
+    public virtual ICollection<GCMessage> GCMessages { get; } = new List<GCMessage>();
 }
