@@ -17,6 +17,8 @@ public partial class GCUser
     public string Name { get; set; } = null!;
 
     public string Email { get; set; } = null!;
+    public bool IsAdmin { get; set; }
+    public int Usages { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<GCUserToken> GCUserTokens { get; } = new List<GCUserToken>();
