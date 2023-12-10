@@ -4,6 +4,7 @@ using GmailCleaner.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GmailCleaner.Common.DataContext.SqlServer.Migrations
 {
     [DbContext(typeof(GmailCleanerContext))]
-    partial class GmailCleanerContextModelSnapshot : ModelSnapshot
+    [Migration("20231210195936_gc12.10.23-1")]
+    partial class gc1210231
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,15 +75,9 @@ namespace GmailCleaner.Common.DataContext.SqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Usages")
-                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 
