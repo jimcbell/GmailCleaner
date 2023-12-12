@@ -12,6 +12,7 @@
         public string GoogleUserInfoUrl {  get; set; } = string.Empty;
         public string Scope { get; set; } = string.Empty;
         public string MessagesRoute { get; set; } = string.Empty;   
+        public string TrashRoute { get; set; } = string.Empty;   
 
     }
 }
