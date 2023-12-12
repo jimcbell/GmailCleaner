@@ -1,8 +1,8 @@
 using Azure.Core;
 using GmailCleaner.Adapters;
-using GmailCleaner.Common.Models;
+using GmailCleaner.Entities;
 using GmailCleaner.Managers;
-using GmailCleaner.Models.ExternalModels;
+using GmailCleaner.Data.Gmail.Models;
 using GmailCleaner.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

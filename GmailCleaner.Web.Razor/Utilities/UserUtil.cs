@@ -1,6 +1,6 @@
-﻿using GmailCleaner.Common.Models;
+﻿using GmailCleaner.Entities;
 
-namespace GmailCleaner.Utilities
+namespace GmailCleaner.Data.Utilities
 {
     public static class UserUtil
     {

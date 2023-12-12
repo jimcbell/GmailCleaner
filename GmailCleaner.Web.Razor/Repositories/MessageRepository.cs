@@ -1,5 +1,5 @@
-﻿using GmailCleaner.Common;
-using GmailCleaner.Common.Models;
+﻿using GmailCleaner.Data;
+using GmailCleaner.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GmailCleaner.Repositories;

@@ -1,5 +1,5 @@
-﻿using GmailCleaner.Common.Models;
-using GmailCleaner.Models.ExternalModels;
+﻿using GmailCleaner.Entities;
+using GmailCleaner.Data.Gmail.Models;
 
 namespace GmailCleaner.Mappers;
 

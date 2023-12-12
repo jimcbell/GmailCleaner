@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
-using GmailCleaner.Common.Models;
+using GmailCleaner.Entities;
 using GmailCleaner.Mappers;
-using GmailCleaner.Models.ExternalModels;
+using GmailCleaner.Data.Gmail.Models;
 using GmailCleaner.Repositories;
 
 namespace GmailCleaner.Managers;

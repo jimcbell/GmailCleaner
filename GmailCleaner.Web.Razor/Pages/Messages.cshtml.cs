@@ -1,11 +1,10 @@
 using GmailCleaner.Adapters;
-using GmailCleaner.Common.Models;
+using GmailCleaner.Entities;
 using GmailCleaner.Managers;
 using GmailCleaner.Models;
-using GmailCleaner.Models.Data;
-using GmailCleaner.Models.ExternalModels;
-using GmailCleaner.Models.Settings;
-using GmailCleaner.Models.ViewModels;
+using GmailCleaner.Data.Gmail.Models;
+using GmailCleaner.Data.Settings;
+using GmailCleaner.Data.ViewModels;
 using GmailCleaner.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;

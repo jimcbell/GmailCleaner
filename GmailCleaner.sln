@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GmailCleaner.Web.Razor", "G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GmailCleaner.Tests", "GmailCleaner.Tests\GmailCleaner.Tests.csproj", "{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GmailCleaner.Common.DataContext.SqlServer", "GmailCleaner.Common.DataContext.SqlServer\GmailCleaner.Common.DataContext.SqlServer.csproj", "{98A7B237-FAA4-4107-AD13-72E31D09981B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GmailCleaner.Common", "GmailCleaner.Common\GmailCleaner.Common.csproj", "{03605B11-4768-4D28-B508-F9E771069D57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A2F7D63-0070-4BBE-A3E2-A8B56301727F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98A7B237-FAA4-4107-AD13-72E31D09981B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98A7B237-FAA4-4107-AD13-72E31D09981B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98A7B237-FAA4-4107-AD13-72E31D09981B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98A7B237-FAA4-4107-AD13-72E31D09981B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03605B11-4768-4D28-B508-F9E771069D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03605B11-4768-4D28-B508-F9E771069D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03605B11-4768-4D28-B508-F9E771069D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03605B11-4768-4D28-B508-F9E771069D57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

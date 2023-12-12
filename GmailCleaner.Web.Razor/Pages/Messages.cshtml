@@ -1,9 +1,7 @@
 ﻿@page
-@using GmailCleaner.Common.Models
 @using GmailCleaner.Models
-@using GmailCleaner.Models.Data
-@using GmailCleaner.Models.ExternalModels
-@using GmailCleaner.Models.ViewModels
+@using GmailCleaner.Data.Gmail.Models
+@using GmailCleaner.Data.ViewModels
 @using GmailCleaner.Pages
 @using System.Text.Json.Nodes
 @using System.Web
@@ -88,20 +86,20 @@
             <span>Any emails selected will not be permanently deleted but moved to your trash folder. You can recover them within 30 days if you would like.</span>
         </div>
         <div class="card-body">
-            <form method="post" class="container">
+                <form method="post" class="container" id="trashForm">
                 @foreach (MessageViewModel mvm in Model.MessageViewModels)
                 {
                     <div class="form-group form-check row align-items-center">
                         <div class="checkbox-group">
                             <input class="form-check-input" name=@mvm.LinkingMessageId type="checkbox" id=@mvm.LinkingMessageId value="1">
                             <label class="form-check-label checkbox-label" for=@mvm.LinkingMessageId>
-                                Delete @mvm.MessageGmailIds.Count emails from @mvm.From
+                                Trash @mvm.MessageGmailIds.Count emails from @mvm.From
                             </label>
                         </div>
                     </div>
                 }
                 <div class="col-12 mb-3 text-center p-2">
-                    <button type="submit" class="btn btn-clean">Trash Selected Emails</button>
+                    <button id="trashButton" onclick="disableButton()" class="btn btn-clean">Trash Selected Emails</button>
                 </div>
             </form>
         </div>
@@ -114,3 +112,10 @@ else
         We didn't find any potential junk emails!
     </div>
 }
+@* Disable the button while the back end is processing the request:
+ *@<script>
+       function disableButton() {
+           document.getElementById('trashButton').disabled = true;
+           document.getElementById('trashForm').submit();
+       }
+</script>

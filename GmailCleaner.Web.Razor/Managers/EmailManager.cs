@@ -1,9 +1,8 @@
 ﻿using Azure;
-using GmailCleaner.Models.Data;
-using GmailCleaner.Models.ExternalModels;
-using GmailCleaner.Models.Settings;
+using GmailCleaner.Data.Gmail.Models;
+using GmailCleaner.Data.Settings;
 using GmailCleaner.Services;
-using GmailCleaner.Utilities;
+using GmailCleaner.Data.Utilities;
 using Microsoft.Identity.Client;
 using System.Runtime;
 using System.Text;

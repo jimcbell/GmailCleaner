@@ -69,16 +69,15 @@ else
     <p>
         When users load Gmail Cleaner and request email analysis, certain data from their emails is saved for later confirmation without the need to use the Google API again.
     </p>
-    <p>Here's a list of the data saved for emails identified as potential spam:</p>
+    <p>Here's a list of the data saved for emails identified as potential spam, these values are all encrypted at rest:</p>
     <ul>
         <li><strong>FromEmail:</strong> The sender's email address.</li>
-        <li><strong>Subject:</strong> The email subject.</li>
         <li><strong>Snippet:</strong> A small part of the email used for confirmation.</li>
         <li><strong>UnsubscribeLink:</strong> The link to unsubscribe from the email chain.</li>
     </ul>
     <p>None of this data is shared with third parties; it's only used for email deletion confirmation.</p>
     <p>Gmail Cleaner retains this data for one week; if there's no further action, it's automatically deleted. Confirmation of email deletion triggers immediate removal from the database.</p>
-    <p>Users can also manually delete their data by clicking the "Clear and Refresh" button on the Messages page. If redirected to the home page, no emails are currently being saved.</p>
+    <p>Users can also manually delete their data by clicking the "Clear Message Data" button on the Messages page.</p>
     <div class="btn-container">
         <a class="btn btn-outline-primary btn-lg" asp-page="Messages" target="_blank">Remove Message Data</a>
     </div>
@@ -92,6 +91,6 @@ else
     <p>Revoking access disables Gmail Cleaner. After following the Google page link, users can delete all connections with Gmail Cleaner by clicking the respective button.</p>
     <strong>Please ensure email data is deleted before revoking access; this data is automatically deleted after a week. To remove it now, use the applicable button above.</strong>
     <div class="btn-container">
-        <a class="btn btn-outline-primary btn-lg" asp-page="Messages" target="_blank">Remove Gmail Cleaner Access</a>
+        <a class="btn btn-outline-primary btn-lg" href="https://myaccount.google.com/connections?filters=3" target="_blank">Remove Gmail Cleaner Access</a>
     </div>
 </section>

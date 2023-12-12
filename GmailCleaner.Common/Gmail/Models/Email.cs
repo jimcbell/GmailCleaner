@@ -3,7 +3,7 @@
 using System.Reflection.Metadata.Ecma335;
 using System.Web;
 
-namespace GmailCleaner.Models.ExternalModels
+namespace GmailCleaner.Data.Gmail.Models
 {
     public class Email
     {

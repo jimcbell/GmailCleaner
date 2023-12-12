@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace GmailCleaner.Models.ExternalModels;
+namespace GmailCleaner.Data.Gmail.Models;
 
 public class RefreshResponse
 {

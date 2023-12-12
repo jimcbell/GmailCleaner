@@ -1,4 +1,4 @@
-﻿using GmailCleaner.Common.Models;
+﻿using GmailCleaner.Entities;
 using GmailCleaner.Repositories;
 
 namespace GmailCleaner.Managers

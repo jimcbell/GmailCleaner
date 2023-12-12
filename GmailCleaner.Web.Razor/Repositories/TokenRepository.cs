@@ -1,7 +1,7 @@
-﻿using GmailCleaner.Common;
-using GmailCleaner.Common.Models;
-using GmailCleaner.Models.ExternalModels;
-using GmailCleaner.Models.Settings;
+﻿using GmailCleaner.Data;
+using GmailCleaner.Entities;
+using GmailCleaner.Data.Gmail.Models;
+using GmailCleaner.Data.Settings;
 using GmailCleaner.Services;
 using Microsoft.EntityFrameworkCore;
 

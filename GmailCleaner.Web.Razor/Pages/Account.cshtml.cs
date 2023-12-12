@@ -1,5 +1,5 @@
 using GmailCleaner.Adapters;
-using GmailCleaner.Common.Models;
+using GmailCleaner.Entities;
 using GmailCleaner.Managers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

@@ -1,4 +1,4 @@
-﻿namespace GmailCleaner.Utilities
+﻿namespace GmailCleaner.Data.Utilities
 {
     public static class HttpResponseUtil
     {

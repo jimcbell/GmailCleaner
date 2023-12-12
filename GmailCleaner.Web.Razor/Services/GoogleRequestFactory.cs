@@ -1,4 +1,4 @@
-﻿using GmailCleaner.Models.Settings;
+﻿using GmailCleaner.Data.Settings;
 using System.Net.Http.Headers;
 
 namespace GmailCleaner.Services

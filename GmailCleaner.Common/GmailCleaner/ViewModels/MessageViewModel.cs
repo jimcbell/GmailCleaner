@@ -1,4 +1,4 @@
-﻿namespace GmailCleaner.Models.ViewModels;
+﻿namespace GmailCleaner.Data.ViewModels;
 
 /// <summary>
 ///  Having issues passing the "from" field from html to the post method, it keeps getting presented in the html wrong, encoding the < and > characters which breaks the from email address.

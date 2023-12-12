@@ -1,4 +1,4 @@
-﻿namespace GmailCleaner.Models.Settings
+﻿namespace GmailCleaner.Data.Settings
 {
     /// <summary>
     /// Settings model to easily parse settings into an object from appsettings.json

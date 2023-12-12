@@ -7,10 +7,10 @@ using System.Security.Claims; // ClaimTypes
 using System.Text.Json; // JsonElement
 using GmailCleaner.Adapters; // IEmailAdapter, ILoginAdapter, IHomeAdapter
 using GmailCleaner.Repositories; // IEmailRepository, ITokenRepository, IUserRepository
-using GmailCleaner.Common; // GmailCleanerContext
+using GmailCleaner.Data; // GmailCleanerContext
 using GmailCleaner.Managers; // IAccessTokenManager, IUserManager
 using GmailCleaner.Services; // IUserContextService, IGoogleRequestFactory
-using GmailCleaner.Models.Settings; // GoogleApiSettings
+using GmailCleaner.Data.Settings; // GoogleApiSettings
 using Azure.Identity;
 using GmailCleaner.Mappers; // DefaultAzureCredential
 //using Azure.Security.KeyVault.Secrets; // SecretClient
@@ -48,16 +48,20 @@ builder.Services.AddHttpClient("google-auth", c =>
 builder.Configuration.AddAzureKeyVault(new Uri(keyVaultUrl), new DefaultAzureCredential());
 
 // Get secret values required for startup
-var connectionString = builder.Configuration["gmail-cleaner-db-connection-string"] ?? string.Empty;
 var clientId = builder.Configuration["gmail-cleaner-client-id"] ?? string.Empty;
 var clientSecret = builder.Configuration["gmail-cleaner-client-secret"] ?? string.Empty;
+
+
+var connectionString = builder.Configuration["gmail-cleaner-db-connection-string"] ?? string.Empty;
+string localConnectionString = "Data Source=.;Initial Catalog=GmailCleaner;Integrated Security=true;TrustServerCertificate=true;";
 if (connectionString == string.Empty || clientId == string.Empty || clientSecret == string.Empty)
 {
     throw new Exception("Missing required configuration values");
 }
 
+
 // Add database context based off connection string in azure keyvault
-builder.Services.AddGmailCleanerContext(connectionString);
+builder.Services.AddGmailCleanerContext(localConnectionString);
 
 // Services
 builder.Services.AddScoped<IUserContextService, UserContextService>();
