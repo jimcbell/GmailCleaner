@@ -7,7 +7,7 @@ namespace GmailCleaner.Repositories
     public interface IUserRepository
     {
         public Task<GCUser> UpsertUserAsync(GCUser user);
-        public Task<GCUser> GetUserAsync(int userId);
+        public Task<GCUser?> GetUserAsync(int userId);
         public Task<bool> DeleteUserAsync(int userId);
         public Task<int> GetUserIdAsync(string gmailId);
     }
@@ -49,18 +49,11 @@ namespace GmailCleaner.Repositories
         /// <param name="userId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<GCUser> GetUserAsync(int userId)
+        public async Task<GCUser?> GetUserAsync(int userId)
         {
 
-            GCUser? user = await _context.GCUsers.Where(u => u.UserId == userId).Include(x => x.GCUserTokens).FirstOrDefaultAsync();
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
-            else
-            {
-                return user;
-            }
+            GCUser? user = await _context.GCUsers.Where(u => u.UserId == userId).Include(x => x.GCUserTokens).Include(x=> x.GCMessages).FirstOrDefaultAsync();
+            return user;
         }
         /// <summary>
         /// Add a new user to the database

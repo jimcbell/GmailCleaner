@@ -11,7 +11,8 @@ public interface IMessageRepository
     public Task<GCMessage> GetMessageAsync(int messageId);
     public Task<List<GCMessage>> GetMessagesAsync(int userId);
     public Task<bool> DeleteMessageAsync(int messageId);
-    public Task<bool> DeleteMessagesAsync(int userId);
+    public Task<int> DeleteMessagesAsync(int userId);
+    public Task<int> DeleteMessagesAsync(List<string> gmailMessageIds);
 }
 public class MessageRepository : IMessageRepository
 {
@@ -26,9 +27,18 @@ public class MessageRepository : IMessageRepository
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteMessagesAsync(int userId)
+    public async Task<int> DeleteMessagesAsync(int userId)
     {
-        throw new NotImplementedException();
+        List<GCMessage> messages = _context.GCMessages.Where(m => m.User.UserId == userId).ToList();
+        _context.GCMessages.RemoveRange(messages);
+        return await _context.SaveChangesAsync();
+    }
+
+    public async Task<int> DeleteMessagesAsync(List<string> gmailMessageIds)
+    {
+        List<GCMessage> messages = await _context.GCMessages.Where(m => gmailMessageIds.Contains(m.MessageGmailId)).ToListAsync();
+        _context.GCMessages.RemoveRange(messages);
+        return await _context.SaveChangesAsync();
     }
 
     public async Task<GCMessage> GetMessageAsync(int messageId)

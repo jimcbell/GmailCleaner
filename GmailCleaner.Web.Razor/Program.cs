@@ -11,7 +11,8 @@ using GmailCleaner.Common; // GmailCleanerContext
 using GmailCleaner.Managers; // IAccessTokenManager, IUserManager
 using GmailCleaner.Services; // IUserContextService, IGoogleRequestFactory
 using GmailCleaner.Models.Settings; // GoogleApiSettings
-using Azure.Identity; // DefaultAzureCredential
+using Azure.Identity;
+using GmailCleaner.Mappers; // DefaultAzureCredential
 //using Azure.Security.KeyVault.Secrets; // SecretClient
 
 
@@ -64,20 +65,26 @@ builder.Services.AddScoped<IGoogleRequestFactory, GoogleRequestFactory>();
 
 
 // Adapters
-builder.Services.AddScoped<IEmailAdapter, EmailsAdapter>();
+builder.Services.AddScoped<IMessageAdapter, MessageAdapter>();
 builder.Services.AddScoped<ILoginAdapter, LoginAdapter>();
-builder.Services.AddScoped<IHomeAdapter, HomeAdapter>();
+builder.Services.AddScoped<IIdentityAdapter, IdentityAdapter>();
 
 
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
-builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 // Managers
 builder.Services.AddScoped<IAccessTokenManager, AccessTokenManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddScoped<IEmailManager, EmailManager>();
+builder.Services.AddScoped<IMessageManager, MessageManager>();
+
+
+// Mappers
+builder.Services.AddScoped<IEmailMessageMapper, EmailMessageMapper>();
 
 builder.Services.AddOutputCache(options =>
 {
