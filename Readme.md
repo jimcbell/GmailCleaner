@@ -8,6 +8,7 @@
     - Storing email messages that are recieved through the api and marked for deletion
 - Entity Framework Core 
     - Object relational mapper for Gmail Cleaner Database
+    - Encrypting data stored in the database using EntityFrameworkCore.EncryptColumn.
 - OAuth
     - Gmail Cleaner is an app registered with Google's OAuth services, uses Authorization Code flow to get access tokens for users.
 - Asp.Net Core Identity
@@ -28,3 +29,8 @@
     - Relational database management system
 - Azure App Service
     - Used to host the web application
+
+
+### Encryption
+- All data besides metadata from google is encrypted at rest in the database.
+- This includes access tokens and refresh tokens (see /images)
