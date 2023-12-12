@@ -1,17 +1,29 @@
-### To Do 
+## Gmail Cleaner
 
-Refacor the email repository so that we do not have to load the access token
+### Technology Used
+- Sql Server 
+Storing users that log in through gmail, their access token, refresh token, etc.
+Storing email messages that are recieved through the api and marked for deletion
+- Entity Framework Core 
+object relational mapper for Gmail Cleaner Database
+- OAuth
+Gmail Cleaner is an app registered with Google's OAuth services, uses Authorization Code flow to get access tokens for users.
+- Asp.Net Core Identity
+Allowing Users to login in through gmail, and getting tokens/ refresh tokens to make api request
+- Asp.Net Core Razor Pages
+UI and making client side requests to server
+- Terraform
+Infrastructure as code used to create Azure resources
 
-- []Fix up the UI and make it look better 
 
-- [x] Use a .net package to parse out the base 64 encoded email payloads 
+### Azure Infrastructure Used
+- Azure Key Vault
+Used to store secret configuration values
+- Azure Sql Database
+Relational database management system
+- Azure App Service
+Used to host the web application
 
-- []Move the sql database used for local development into the cloud with azure (use terraform and keep the tf files local)
-- [x] Setup the tf state and include the keyvault so that all the secrets can be pulled from there
-
-Most important is setting up tf state and key vault
-- [] Use caching on the emails page
-- [] Add rate limiting to prevent DDOS and too many requests
 
 ### To Run 
 
