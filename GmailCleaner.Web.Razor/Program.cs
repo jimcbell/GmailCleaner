@@ -169,13 +169,13 @@ if(app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseHttpsRedirection();
-app.MapGet("/claims",
-    (HttpContext ctx) =>
-    {
-        ctx.GetTokenAsync("access_token");
-        return ctx.User.Claims.Select(x => new { x.Type, x.Value }).ToList();
-    }
-);
+//app.MapGet("/claims",
+//    (HttpContext ctx) =>
+//    {
+//        ctx.GetTokenAsync("access_token");
+//        return ctx.User.Claims.Select(x => new { x.Type, x.Value }).ToList();
+//    }
+//);
 app.MapGet("/login", () =>
 {
     return Results.Challenge(
