@@ -36,7 +36,6 @@
 - This includes access tokens and refresh tokens (see /images)
 
 ### To Do 
-[] Connect logging to app insights
-[] Get Azure Virtual Network working instaed of using direct IP Address of azure app service for gmail cleaner
+[x] Connect logging to app insights
 [] Build Unit Tests
 [] Invalidate asp.net core cookie instead of redirecting to login success
