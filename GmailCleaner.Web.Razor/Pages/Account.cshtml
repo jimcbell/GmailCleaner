@@ -1,0 +1,97 @@
+﻿@page
+@model GmailCleaner.Pages.AccountModel
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    section {
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        color: #007bff;
+    }
+
+    p {
+        margin-bottom: 15px;
+    }
+
+    .account-info {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .message-count {
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .btn-container a {
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+        }
+</style>
+
+@if (Model.GcUser != null)
+{
+    <section class="account-info">
+        <h1>My Account</h1>
+        <p>Welcome, @Model.GcUser.Name!</p>
+        <p>Gmail Cleaner is currently retaining <span class="message-count">@Model.GcMessages.Count</span> messages.</p>
+    </section>
+}
+else
+{
+    <section class="account-info">
+        <h1>My Account</h1>
+        <p>Not logged in.</p>
+    </section>
+}
+
+<section>
+    <h1>Email Message Data</h1>
+    <p>
+        When users load Gmail Cleaner and request email analysis, certain data from their emails is saved for later confirmation without the need to use the Google API again.
+    </p>
+    <h1>Email Message Data</h1>
+    <p>
+        When users load Gmail Cleaner and request email analysis, certain data from their emails is saved for later confirmation without the need to use the Google API again.
+    </p>
+    <p>Here's a list of the data saved for emails identified as potential spam:</p>
+    <ul>
+        <li><strong>FromEmail:</strong> The sender's email address.</li>
+        <li><strong>Subject:</strong> The email subject.</li>
+        <li><strong>Snippet:</strong> A small part of the email used for confirmation.</li>
+        <li><strong>UnsubscribeLink:</strong> The link to unsubscribe from the email chain.</li>
+    </ul>
+    <p>None of this data is shared with third parties; it's only used for email deletion confirmation.</p>
+    <p>Gmail Cleaner retains this data for one week; if there's no further action, it's automatically deleted. Confirmation of email deletion triggers immediate removal from the database.</p>
+    <p>Users can also manually delete their data by clicking the "Clear and Refresh" button on the Messages page. If redirected to the home page, no emails are currently being saved.</p>
+    <div class="btn-container">
+        <a class="btn btn-outline-primary" asp-page="Messages" target="_blank">Go here to remove data</a>
+    </div>
+</section>
+
+<section>
+    <h1>Google Account Data</h1>
+    <p>In addition to email message data, minimal Google account information is saved, along with the permission granted during sign-in to access the user's Google account.</p>
+    <p>This information is solely used for accessing email messages and is never shared with third parties.</p>
+    <p>Users can revoke access to their Google account at any time using the button below.</p>
+    <p>Revoking access disables Gmail Cleaner. After following the Google page link, users can delete all connections with Gmail Cleaner by clicking the respective button.</p>
+    <strong>Please ensure email data is deleted before revoking access; this data is automatically deleted after a week. To remove it now, use the applicable button above.</strong>
+    <div class="btn-container">
+        <a class="btn btn-outline-primary btn-lg" asp-page="Messages" target="_blank">Remove Data</a>
+    </div>
+</section>

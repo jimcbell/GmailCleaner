@@ -3,50 +3,52 @@
 @{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
 
+    h1, h2, h3 {
+        color: #333;
+    }
+</style>
 <div>
-    <span>Gmail Cleaner is a web application that allows users to clean up their Gmail inbox by identifying and deleting emails that are identified as potential spam.</span>
-    <br />
-    <span>Gmail Cleaner stores as little information as possible in order to prevent continuos api calls for each user.</span>
-    <br />
-    <span>Gmail Cleaner limits the number of times a user can use the application to 5 cleans (for now), and deleting the messages below will count as a usage.</span>
-    <br />
-    <h1>Email Message Data</h1>
-    <span>For each user that loads up Gmail Cleaner and asks to have it's emails analyzed certain data from their emails is saved to confirm later without having to use the Google api again.</span>
-    <br />
-    <span>Here is a list of the data that is saved for emails identified as potential spam:</span>
-    <ul>
-        <li>FromEmail - The email address of the account that sent the email.</li>
-        <li>Subject - The subject of the email.</li>
-        <li>Snippet - A small snippet of the email used as part of the confirmation to delete.</li>
-        <li>UnsubscribeLink - The link to unsubscribe from the email chain that the email was sent from.</li>
-    </ul>
-    <span>None of this data is shared with any third parties and is only used to confirm the deletion of emails.</span>
-    <br />
-    <span>Gmail Cleaner only maintains this data for a time period of 1 week, at which point if there is no further action from the user the data is automatically deleted.</span>
-    <br />
-    <span>Once the user confirms the deletion of the emails the data is automatically deleted from the database.</span>
-    <br />
-    <span>Users can also delete their data at any time by clicking the "Clear and Refresh button on the Messages page". If you get redirected to the home page it is because you don't have any emails that are currently being saved</span>
-    <div class="text-center">
-        <a class="btn btn-outline-primary" asp-page="Messages" target="_blank">Go here to remove data.</a>
-    </div>
+    <h1>Privacy Policy for Gmail Cleaner</h1>
 
-    <h1>Google Account Data</h1>
-    <span>In addition to data on email messages, minimal google account information is saved as well as the permission to access a user's google account as given by the sign in.</span>
-    <br />
-    <span>This information is only used to access the user's email messages and is not shared with any third parties.</span>
-    <br />
-    <span>Users can revoke access to their google account at any time by clicking the button below.</span>
-    <br />
-    <span>Once access is revoked, the user will no longer be able to use Gmail Cleaner.</span>
-    <br />
-    <span>After following the link to the google page, a user can click the button to delete all connections with gmail cleaner.</span>
-    <br />
-    <strong>Please make sure that email data is deleted first before revoking access. This data will automatically be deleted after a week but to remove it now use the button above if applicable.</strong>
-    <br />
-    <div class="text-center">
-        <a class="btn btn-outline-danger" href="https://myaccount.google.com/connections">Revoke access to my google account</a>
-    </div>
+    <p><em>Effective Date: 12/11/2023</em></p>
+
+    <h2>Introduction</h2>
+
+    <p>Welcome to Gmail Cleaner, a web application designed to enhance your Gmail experience by streamlining and optimizing your inbox. This privacy policy outlines how Gmail Cleaner collects, uses, and safeguards your information. Please read this document carefully to understand our practices and ensure a secure and transparent user experience.</p>
+
+    <h2>Information Collection and Usage</h2>
+
+    <p>Gmail Cleaner is committed to preserving your privacy and limiting the collection of personal information to the absolute minimum necessary for functionality. We solely focus on the identification and deletion of potential spam emails within your Gmail inbox. To achieve this, Gmail Cleaner minimizes the storage of user data to prevent excessive API calls.</p>
+
+    <h2>Usage Limits</h2>
+
+    <p>To ensure fair usage and maintain optimal system performance, Gmail Cleaner imposes usage limits. Currently, users are permitted up to 5 cleans. Each instance of identifying and deleting potential spam emails during a cleanup session counts as one usage.</p>
+
+    <h2>User Control and Choices</h2>
+
+    <p>Gmail Cleaner prioritizes user control over personal information. Users can modify or delete their account information at any time. For more details on managing your data, please refer to our account settings.</p>
+
+    <h2>Third-Party Integration</h2>
+
+    <p>Gmail Cleaner is dedicated to your privacy and does not share any user data with third parties. While we may utilize third-party services to enhance functionality and improve user experience, be assured that your information remains strictly confidential within the confines of Gmail Cleaner. These third-party services adhere to their own privacy policies, and users are encouraged to review them for a comprehensive understanding of data handling practices.</p>
+
+
+    <h2>Policy Updates</h2>
+
+    <p>Gmail Cleaner reserves the right to update this privacy policy to reflect changes in technology, legal requirements, and user feedback. Users will be notified of significant changes through the application or via email.</p>
+
+    <h2>Contact Information</h2>
+
+    <p>For inquiries regarding this privacy policy or any privacy-related concerns, please contact us at <a href="mailto:jimcampbell355@gmail.com">jimcampbell355@gmail.com</a>.</p>
+
+    <h2>Conclusion</h2>
+
+    <p>By using Gmail Cleaner, you agree to the terms outlined in this privacy policy. We are committed to maintaining the highest standards of privacy and security for our users.</p>
 </div>

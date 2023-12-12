@@ -19,7 +19,6 @@ namespace GmailCleaner.Pages;
 public class MessagesModel : PageModel
 {
     private IMessageAdapter _messageAdapter;
-    private IUserContextService _contextService;
     private IIdentityAdapter _identityAdapter;
 
     public List<GCMessage> Messages { get; set; } = new List<GCMessage>();
@@ -36,7 +35,6 @@ public class MessagesModel : PageModel
     public MessagesModel(IMessageAdapter messageAdapter, IUserContextService contextService, IIdentityAdapter identityAdapter)
     {
         _messageAdapter = messageAdapter;
-        _contextService = contextService;
         _identityAdapter = identityAdapter;
 
     }
@@ -53,9 +51,6 @@ public class MessagesModel : PageModel
             
             return Page();
         }
-        //accessToken = _contextService.GetToken(Request);
-        //Emails = await _emailAdapter.GetEmails(accessToken, filter);
-        //Response.Cookies.Append(key: "access_token", accessToken);
     }
 
     public async Task<IActionResult> OnPost([FromForm] Dictionary<string, int> deleteList)
