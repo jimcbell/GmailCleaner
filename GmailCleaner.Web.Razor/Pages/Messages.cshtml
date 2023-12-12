@@ -1,0 +1,114 @@
+﻿@page
+@using GmailCleaner.Common.Models
+@using GmailCleaner.Models
+@using GmailCleaner.Models.Data
+@using GmailCleaner.Models.ExternalModels
+@using GmailCleaner.Models.ViewModels
+@using GmailCleaner.Pages
+@using System.Text.Json.Nodes
+@using System.Web
+@model MessagesModel
+@{
+}
+@if (Model.EmailErrors.Count > 0)
+{
+    <div class="card alert-danger">
+        @foreach (Error error in Model.EmailErrors.Errors)
+        {
+            if (error.StatusCode is not null)
+            {
+                <span>Status Code: @error.StatusCode</span>
+            }
+            <span>Error Message: @error.Message</span>
+        }
+    </div>
+}
+@* <form method="post" class="row g-3">
+    <div class="col-12 mb-3 text-center">
+        <button type="submit" class="btn btn-primary">Check My Inbox!</button>
+    </div>
+</form> *@
+@if (Model.Messages.Count > 0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-success col-8" role="alert">
+                We found @Model.Messages.Count()  potential junk emails!
+            </div>
+            <form class="col-4 mb-3 text-center" method="post" asp-page-handler="DeleteAll">
+                    <button type="submit" class="btn btn-secondary alert alert-secondary">Clear Message Data</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header text-center">
+            <h5>Confirm move to Trash</h5>
+            <br />
+            <span>Any emails selected will not be permanently deleted, but moved to your trash folder. You can recover them within 30 days if you would like</span>
+        </div>
+        <div class="card-body">
+            <form method="post" class="container">
+                @foreach (MessageViewModel mvm in Model.MessageViewModels)
+                {
+                    <div class="form-group form-check row">
+                        <div class="col-3">
+                            <input class="form-check-input" name=@mvm.LinkingMessageId type="checkbox" id=@mvm.LinkingMessageId value="1">
+                        </div>
+                        <div class="col-9">
+                            <label class="form-check-label" for=@mvm.LinkingMessageId>
+                                Delete @mvm.MessageGmailIds.Count emails from @mvm.From
+                            </label>
+                        </div>
+                    </div>
+                }
+                <div class="col-12 mb-3 text-center">
+                    <button type="submit" class="btn btn-warning">Clean my inbox!</button>
+                </div>
+            </form>
+            @* <form method="post" >
+                <div class="form-group form-check">
+                    <input class="form-check-input" name="x" type="checkbox" id="x" checked>
+                    <label class="form-check-label" for="x">label</label>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <button type="submit" class="btn btn-warning">Clean my inbox!</button>
+                </div>
+            </form> *@
+        </div>
+    </div>
+    <br />
+    <div class="text-center">
+        <h1>Detailed Overview</h1>
+    </div>
+    <div class="accordion" id="emailAccordion">
+        @foreach (GCMessage message in Model.Messages)
+        {
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading_@message.MessageId">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@message.MessageId" aria-expanded="true" aria-controls="collapse_@message.MessageId">
+                        <span>@message.From</span>
+                    </button>
+                </h2>
+                <div id="collapse_@message.MessageId" class="accordion-collapse collapse show" aria-labelledby="heading_@message.MessageId" data-bs-parent="#emailAccordion">
+                    <div class="accordion-body">
+                        <div>
+                            <span>Snippet: </span>
+                            <span>
+                                @message.Snippet
+                            </span>
+                        </div>
+                        <div class="text-center">
+                            <a class="btn btn-outline-danger" href="@message.UnsubscribeLink" target="_blank">
+                                Unsubscribe Here
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+

@@ -3,6 +3,8 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    int usagesLeft = 5 - Model.Usages;
+
 }
 
 <div class="text-center">
@@ -10,7 +12,18 @@
     @if (Model.IsAuthenticated)
     {
         <div class="card border-dark" style="padding: 20px">
-            <div style="padding: 10px"><span>Thanks for logging in @Model.GCUser.Name</span></div>
+            <div style="padding: 10px">
+                <div>
+                    <span>Thanks for logging in @Model.Name!</span>
+                </div>
+                <div>
+                    <span>You have @usagesLeft left of GmailCleaner this month!</span>
+                </div>
+                <div>
+                    <span>If you got here through the clean/delete your email data, Gmail Cleaner is no longer preserving an email metadata of yours :). </span>
+                </div>
+            </div>
+
             <form method="post" class="row g-3">
                 <div class="col-12 mb-3 text-center">
                     <button type="submit" class="btn btn-primary">Analyze My Inbox!</button>
