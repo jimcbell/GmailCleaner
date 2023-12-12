@@ -63,7 +63,8 @@ resource "azurerm_key_vault" "gmail-cleaner-kv" {
       "Delete",
       "Recover",
       "Backup",
-      "Restore"
+      "Restore",
+      "Purge"
     ]
 
     storage_permissions = [
@@ -104,6 +105,8 @@ resource "azurerm_key_vault_secret" "gmail_cleaner_client_secret" {
   value        = var.gmail_cleaner_client_secret
   key_vault_id = azurerm_key_vault.gmail-cleaner-kv.id
 }
+
+
 
 
 
