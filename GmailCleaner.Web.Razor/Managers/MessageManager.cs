@@ -5,6 +5,10 @@ using GmailCleaner.Models.ExternalModels;
 using GmailCleaner.Repositories;
 
 namespace GmailCleaner.Managers;
+/// <summary>
+/// Message Manager controls the interaction with the messages in 
+/// the database through the message repository as well as the email manager which interfaces with Google Apis.
+/// </summary>
 public interface IMessageManager
 {
     /// <summary>
@@ -17,12 +21,14 @@ public interface IMessageManager
     /// <returns></returns>
     public Task<List<GCMessage>?> LoadMessagesAsync(GCUser user);
     public Task<List<GCMessage>> GetMessagesAsync(GCUser user);
+    public Task<int> TrashMessagesAsync(List<GCMessage> messages, GCUser user);
+    public Task<int> DeleteAllMessagesAsync(GCUser user);
 }
 
 public class MessageManager : IMessageManager
 {
     private IEmailManager _emailManager;
-    private IMessageRepository _messageRepositoty;
+    private IMessageRepository _messageRepository;
     private IAccessTokenManager _accessManager;
     private IEmailMessageMapper _mapper;
     private IUserManager _userManager;
@@ -36,7 +42,7 @@ public class MessageManager : IMessageManager
         IUserManager userManager)
     {
         _emailManager = emailManager;
-        _messageRepositoty = messageRepository;
+        _messageRepository = messageRepository;
         _accessManager = accessTokenManager;
         _mapper = mapper;
         _userManager = userManager;
@@ -44,7 +50,7 @@ public class MessageManager : IMessageManager
 
     public Task<List<GCMessage>> GetMessagesAsync(GCUser user)
     {
-        return _messageRepositoty.GetMessagesAsync(user.UserId);
+        return _messageRepository.GetMessagesAsync(user.UserId);
     }
 
     public async Task<List<GCMessage>?> LoadMessagesAsync(GCUser user)
@@ -54,8 +60,7 @@ public class MessageManager : IMessageManager
         List<GCMessage>? upsertedMessages = null;
 
 
-        string accessToken = await _accessManager.GetAccessTokenAsync(user.UserId);
-        _emailManager.LoadAccessToken(accessToken);
+        await getAndLoadAccessToken(user.UserId);
 
         // This will throw an exception if there is a permanent error on google api, letting that be auto rethrown.
         EmailMetadatas? emailMetadatas = await _emailManager.GetEmailMetadatas(user.GmailId, maxEmails: _maxEmails);
@@ -68,10 +73,28 @@ public class MessageManager : IMessageManager
         if (emails.Count > 0)
         {
             List<GCMessage> messages = _mapper.MapEmailsToMessages(emails, user);
-            upsertedMessages = await _messageRepositoty.UpsertMessagesAsync(messages);
+            upsertedMessages = await _messageRepository.UpsertMessagesAsync(messages);
             await _userManager.IncrementUserUsageAsync(user); // Increment the usages for the user.
         }
         return upsertedMessages;
     }
 
+    public async Task<int> TrashMessagesAsync(List<GCMessage> messages, GCUser user)
+    {
+        await getAndLoadAccessToken(user.UserId);
+        List<string> messageIdsDeletedInGoogle = await _emailManager.DeleteEmailsAsync(
+            messages.Select(m => m.MessageGmailId).ToList(), user.GmailId);
+
+        return await _messageRepository.DeleteMessagesAsync(messageIdsDeletedInGoogle);
+    }
+    private async Task getAndLoadAccessToken(int userId)
+    {
+        string accessToken = await _accessManager.GetAccessTokenAsync(userId);
+        _emailManager.LoadAccessToken(accessToken);
+    }
+
+    public async Task<int> DeleteAllMessagesAsync(GCUser user)
+    {
+        return await _messageRepository.DeleteMessagesAsync(user.UserId);
+    }
 }

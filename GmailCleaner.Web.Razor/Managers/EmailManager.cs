@@ -10,6 +10,9 @@ using System.Text;
 
 namespace GmailCleaner.Managers
 {
+    /// <summary>
+    /// This manager is used to interact with the google apis for emails.
+    /// </summary>
     public interface IEmailManager
     {
         public void LoadAccessToken(string accessToken);
@@ -43,6 +46,15 @@ namespace GmailCleaner.Managers
         /// <returns></returns>
         /// <exception cref="Exception">Throws an exception on a permanent api error</exception>
         public Task<EmailMetadatas?> GetEmailMetadatas(string gmailId, string query = "", int maxEmails = 50);
+        /// <summary>
+        /// Deletes emails from users inbox.
+        /// Returns the gmail ids of those that were succesfully deleted.
+        /// </summary>
+        /// <param name="emailMessageIds"></param>
+        /// <param name="gmailId"></param>
+        /// <returns></returns>
+        public Task<List<string>> DeleteEmailsAsync(List<string> emailMessageIds, string gmailId);  
+        public Task<string?> DeleteEmailAsync(string emailMessageId, string gmailId);  
     }
     public class EmailManager : IEmailManager
     {
@@ -73,7 +85,7 @@ namespace GmailCleaner.Managers
             checkAccessToken();
             HttpClient client = _clientFactory.CreateClient(_clientName);
             string queryParams = createMetadataQueryParams(query, maxEmails);
-            HttpRequestMessage request = _requestFactory.CreateGetEmailIdsRequest(_accessToken, queryParams);
+            HttpRequestMessage request = _requestFactory.CreateGetEmailIdsRequest(_accessToken, queryParams, gmailId);
             HttpResponseMessage response = await client.SendAsync(request);
             try
             {
@@ -138,7 +150,7 @@ namespace GmailCleaner.Managers
             Email? email = null;
             checkAccessToken();
             HttpClient client = _clientFactory.CreateClient(_clientName);
-            HttpRequestMessage request = _requestFactory.CreateGetEmailRequest(_accessToken, emailId);
+            HttpRequestMessage request = _requestFactory.CreateGetEmailRequest(_accessToken, emailId, gmailId);
             HttpResponseMessage response = await client.SendAsync(request);
             try
             {
@@ -186,5 +198,50 @@ namespace GmailCleaner.Managers
             if (string.IsNullOrEmpty(_accessToken)) { throw new Exception("Access token is not loaded"); }
         }
 
+        public async Task<List<string>> DeleteEmailsAsync(List<string> emailIds, string gmailId)
+        {
+            checkAccessToken();
+            List<string> deletedEmails = new();
+            foreach(string emailId in emailIds)
+            {
+                try
+                {
+                    string? response = await DeleteEmailAsync(emailId, gmailId);
+                    if(response != null)
+                    {
+                            _logger.LogInformation($"Deleted email with id: {emailId} for user: {gmailId}");
+                            deletedEmails.Add(emailId);
+                    }
+                    else
+                    {
+                        _logger.LogError($"Failed to delete email with id: {emailId} for user: {gmailId}");
+                        break;
+                    }
+                }
+                catch
+                {
+                    throw; // Rethrow exception to be handled by caller if permanent error.
+                }
+            }
+            return deletedEmails;
+        }
+
+        public async Task<string?> DeleteEmailAsync(string emailId, string gmailId)
+        {
+            checkAccessToken();
+            string? responseText = null;
+            HttpClient client = _clientFactory.CreateClient(_clientName);
+            HttpRequestMessage request = _requestFactory.CreateDeleteEmailRequest(_accessToken, emailId, gmailId);
+            HttpResponseMessage response = await client.SendAsync(request);
+            try
+            {
+                responseText = await GetResponseOrDefault<string>(response, gmailId);
+            }
+            catch
+            {
+                throw; // Rethrow exception to be handled by caller if permanent error.
+            }
+            return responseText;
+        }
     }
 }

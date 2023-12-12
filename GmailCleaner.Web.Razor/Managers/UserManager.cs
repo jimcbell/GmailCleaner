@@ -8,8 +8,8 @@ namespace GmailCleaner.Managers;
 /// </summary>
 public interface IUserManager
 {
-    public Task<GCUser> GetUserAsync(int userId);
-    public Task<GCUser> GetUserAsync(string gmailId);
+    public Task<GCUser?> GetUserAsync(int userId);
+    public Task<GCUser?> GetUserAsync(string gmailId);
     public Task<GCUser> UpsertUserAsync(GCUser user, GCUserToken userToken);
     public Task<bool> DeleteUserAsync(int userId);
     public Task<GCUser> IncrementUserUsageAsync(GCUser user);
@@ -41,11 +41,11 @@ public class UserManager : IUserManager
         }
     }
 
-    public async Task<GCUser> GetUserAsync(int userId)
+    public async Task<GCUser?> GetUserAsync(int userId)
     {
         try
         {
-            GCUser user = await _userRepository.GetUserAsync(userId);
+            GCUser? user = await _userRepository.GetUserAsync(userId);
             return user;
         }
         catch (Exception e)
@@ -55,12 +55,12 @@ public class UserManager : IUserManager
         }
     }
 
-    public async Task<GCUser> GetUserAsync(string gmailId)
+    public async Task<GCUser?> GetUserAsync(string gmailId)
     {
         try
         {
             int userId = await _userRepository.GetUserIdAsync(gmailId);
-            GCUser user = await _userRepository.GetUserAsync(userId);
+            GCUser? user = await _userRepository.GetUserAsync(userId);
             return user;
         }
         catch (Exception e)
