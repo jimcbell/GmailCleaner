@@ -34,3 +34,7 @@
 ### Encryption
 - All data besides metadata from google is encrypted at rest in the database.
 - This includes access tokens and refresh tokens (see /images)
+
+### To Do 
+[] Connect logging to app insights
+[] Get Azure Virtual Network working instaed of using direct IP Address of azure app service for gmail cleaner
