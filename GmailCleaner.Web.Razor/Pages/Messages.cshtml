@@ -66,21 +66,22 @@
 
 @if (Model.Messages.Count > 0)
 {
-    <div class="container">
-        <div class="row">
-            <div class="alert alert-success" role="alert">
-                We found @Model.Messages.Count() potential junk emails!
-            </div>
+    <div>
+
+    <div class="alert alert-success" role="alert">
+        We found @Model.Messages.Count() potential junk emails!
+    </div>
+    <div class="row text-center m-3">
+        <div class="col-md-6">
+            <a class="btn btn-success" href="/MessageDetail">View Email Details Before Trashing</a>
+        </div>
+        <div class="col-md-6">
+            <form method="post" asp-page-handler="DeleteAll">
+                <button type="submit" class="btn btn-secondary">Clear Message Data</button>
+            </form>
         </div>
     </div>
-    <div class="row">
-        <div class="text-center">
-            <a class="btn btn-success" href="/MessageDetail">View these emails before trashing.</a>
-        </div>
-        <form class="text-center" method="post" asp-page-handler="DeleteAll">
-            <button type="submit" class="btn btn-secondary alert alert-secondary">Clear Message Data</button>
-        </form>
-    </div>
+
     <div class="card">
         <div class="card-header text-center">
             <h5>Confirm move to Trash</h5>
@@ -105,5 +106,11 @@
             </form>
         </div>
     </div>
-    <br />
+    </div>
+}
+else
+{
+    <div class="alert alert-success" role="alert">
+        We didn't find any potential junk emails!
+    </div>
 }

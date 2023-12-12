@@ -4,41 +4,47 @@
 @{
     ViewData["Title"] = "Home page";
     int usagesLeft = 5 - Model.Usages;
-
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Gmail Cleaner</h1>
-    <p class="lead">Gmail Cleaner is a tool that helps you clean your Gmail inbox from unwanted emails.</p>
-    @if (Model.IsAuthenticated)
-    {
-        <div class="card border-dark" style="padding: 20px">
-            <div style="padding: 10px">
-                <div>
-                    <span>Thanks for logging in @Model.Name!</span>
-                </div>
-                <div>
-                    <span>You have @usagesLeft left of GmailCleaner this month!</span>
-                </div>
-                <div>
-                    <span>If you got here through the clean/delete your email data, Gmail Cleaner is no longer preserving an email metadata of yours :). </span>
-                </div>
-            </div>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Gmail Cleaner</h1>
+        <p class="lead">Clean your Gmail inbox from unwanted emails with ease.</p>
 
-            <form method="post" class="row g-3">
-                <div class="col-12 mb-3 text-center">
-                    <button type="submit" class="btn btn-primary">Analyze My Inbox!</button>
-                </div>
-            </form>
-        </div>
-    }
-    else
-    {
-        <div class="card border-dark" style="padding: 20px">
-            <div style="padding: 10px"><span>Please log in to access features.</span></div>
+        @if (Model.IsAuthenticated)
+        {
             <div>
-                <a class="btn btn-primary" href="https://localhost:8080/login" style="width: 85px">Login</a>
+                <div>
+                    <span>Welcome, @Model.Name! You have @usagesLeft left for Gmail Cleaner this month.</span>
+                </div>
+                <div class="mt-3">
+                    <span>If you just cleaned/removedyour email data, Gmail Cleaner no longer preserves your email metadata. (Check the account settings page if you would like to verify)</span>
+                </div>
+
+                <form method="post" class="mt-4" id="analyzeForm">
+                    <div class="text-center">
+                        <button id="analyzeButton" onclick="disableButton()" class="btn btn-primary">Analyze My Inbox!</button>
+                    </div>
+                </form>
             </div>
-        </div>
-    }
+        }
+        else
+        {
+            <div class="card p-4 mt-4">
+                <div>
+                    <span>Please log in to access features.</span>
+                </div>
+                <div class="mt-3">
+                    <a class="btn btn-primary btn-lg" href="https://localhost:8080/login">Login through Gmail</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+@* Disable the button while the back end is processing the request:
+ *@<script>
+    function disableButton() {
+        document.getElementById('analyzeButton').disabled = true;
+        document.getElementById('analyzeForm').submit();
+    }
+</script>
