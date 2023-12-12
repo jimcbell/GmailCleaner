@@ -8,19 +8,23 @@ namespace GmailCleaner.Data;
 
 public partial class GmailCleanerContext : DbContext
 {
-    private readonly IEncryptionProvider _provider;
+    private readonly IEncryptionProvider? _provider;
 
-    public GmailCleanerContext(IConfiguration configuration)
+    //public GmailCleanerContext(IConfiguration configuration) 
+    //{
+    //    _key = ;
+    //    //this._provider = new GenerateEncryptionProvider(key);
+
+    //}
+    public GmailCleanerContext(string key)
     {
-        string? key = configuration["gmail-cleaner-key"];
         this._provider = new GenerateEncryptionProvider(key);
-
     }
 
-    public GmailCleanerContext(DbContextOptions<GmailCleanerContext> options, string key)
+    public GmailCleanerContext(DbContextOptions<GmailCleanerContext> options, IConfiguration configuration)
         : base(options)
     {
-        this._provider = new GenerateEncryptionProvider(key);
+        _provider = new GenerateEncryptionProvider(configuration["gmail-cleaner-key"]);
     }
 
     public virtual DbSet<GCUser> GCUsers { get; set; }

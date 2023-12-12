@@ -60,6 +60,7 @@ if (connectionString == string.Empty || clientId == string.Empty || clientSecret
 }
 
 
+
 // Add database context based off connection string in azure keyvault
 builder.Services.AddGmailCleanerContext(connectionString);
 

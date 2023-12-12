@@ -34,8 +34,8 @@ namespace GmailCleaner.Adapters
             catch(Exception e)
             {
                 _logger.LogError(e, $"Error getting user with gmail ID {gmailUser.UserId}");
+                throw;
             }
-            return user;
 
 
         }

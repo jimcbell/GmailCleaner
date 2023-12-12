@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GmailCleaner.Migrations
 {
     [DbContext(typeof(GmailCleanerContext))]
-    [Migration("20231212052424_encryption3")]
-    partial class encryption3
+    [Migration("20231212073929_Fix1")]
+    partial class Fix1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
