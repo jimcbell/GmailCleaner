@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace GmailCleaner.Pages
 {
@@ -53,8 +54,9 @@ namespace GmailCleaner.Pages
                 }
                 else
                 {
-                    _logger.LogError($"User with gmailId was authenticated but not saved to the database: {_gmailId}");
-                    return RedirectToPage("Error", new { error = "User not found" });
+                    await Request.HttpContext.SignOutAsync();
+                    // The user was removed from the database but they still have the cookie, need to re-add them.
+                    return RedirectToPage("Error");
                 }
             }
             return Page();

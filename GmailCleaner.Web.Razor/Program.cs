@@ -53,7 +53,7 @@ var clientSecret = builder.Configuration["gmail-cleaner-client-secret"] ?? strin
 
 
 var connectionString = builder.Configuration["gmail-cleaner-db-connection-string"] ?? string.Empty;
-string localConnectionString = "Data Source=.;Initial Catalog=GmailCleaner;Integrated Security=true;TrustServerCertificate=true;";
+//string localConnectionString = "Data Source=.;Initial Catalog=GmailCleaner;Integrated Security=true;TrustServerCertificate=true;";
 if (connectionString == string.Empty || clientId == string.Empty || clientSecret == string.Empty)
 {
     throw new Exception("Missing required configuration values");
@@ -61,7 +61,7 @@ if (connectionString == string.Empty || clientId == string.Empty || clientSecret
 
 
 // Add database context based off connection string in azure keyvault
-builder.Services.AddGmailCleanerContext(localConnectionString);
+builder.Services.AddGmailCleanerContext(connectionString);
 
 // Services
 builder.Services.AddScoped<IUserContextService, UserContextService>();
@@ -142,8 +142,6 @@ builder.Services.AddAuthentication("cookie")
 builder.Services.AddHttpLogging(logging =>
 {
     logging.LoggingFields = HttpLoggingFields.All;
-    logging.RequestHeaders.Add("Authorization");
-    logging.ResponseHeaders.Add("Authorization");
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
 });
