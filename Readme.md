@@ -15,6 +15,7 @@
     - Allowing Users to login in through gmail, and getting tokens/ refresh tokens to make api request
 - Terraform
     - Infrastructure as code used to create Azure resources
+- .Net 8 / Asp.Net Core 8
 ### Front End
 - Asp.Net Core Razor Pages (back end also)
     - UI and making client side requests to server
@@ -37,5 +38,4 @@
 
 ### To Do 
 [x] Connect logging to app insights
-[] Build Unit Tests
 [] Invalidate asp.net core cookie instead of redirecting to login success
