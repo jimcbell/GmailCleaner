@@ -36,7 +36,3 @@
 ### Encryption
 - All data besides metadata from google is encrypted at rest in the database.
 - This includes access tokens and refresh tokens (see /images)
-
-### To Do 
-[x] Connect logging to app insights
-[] Invalidate asp.net core cookie instead of redirecting to login success
